@@ -91,6 +91,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jToggleButtonAlisado = new javax.swing.JToggleButton();
         jPanelCentral = new javax.swing.JPanel();
         escritorio = new javax.swing.JDesktopPane();
+        jPanelEstado = new javax.swing.JPanel();
+        jLabelEstado = new javax.swing.JLabel();
+        jLabelPosicion = new javax.swing.JLabel();
+        jLabelRGB = new javax.swing.JLabel();
         jToolBarEdicion = new javax.swing.JToolBar();
         jPanelSeparador1 = new javax.swing.JPanel();
         jPanelBrillo = new javax.swing.JPanel();
@@ -126,6 +130,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jLabelRotacion = new javax.swing.JLabel();
         jPanelBotonesRotacion = new javax.swing.JPanel();
         jSliderRotacion = new javax.swing.JSlider();
+        jSeparator5 = new javax.swing.JSeparator();
         jButtonRotacion90 = new javax.swing.JButton();
         jButtonRotacion180 = new javax.swing.JButton();
         jButtonRotacion270 = new javax.swing.JButton();
@@ -140,10 +145,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jLabelUmbralizacion = new javax.swing.JLabel();
         jSlider1 = new javax.swing.JSlider();
         jPanelSeparador9 = new javax.swing.JPanel();
-        jPanelEstado = new javax.swing.JPanel();
-        jLabelEstado = new javax.swing.JLabel();
-        jLabelPosicion = new javax.swing.JLabel();
-        jLabelRGB = new javax.swing.JLabel();
         jMenuBar = new javax.swing.JMenuBar();
         jMenuArchivo = new javax.swing.JMenu();
         jMenuEdicion = new javax.swing.JMenu();
@@ -313,7 +314,33 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jPanelCentral.setLayout(new java.awt.BorderLayout());
 
-        escritorio.setLayout(new java.awt.BorderLayout());
+        javax.swing.GroupLayout escritorioLayout = new javax.swing.GroupLayout(escritorio);
+        escritorio.setLayout(escritorioLayout);
+        escritorioLayout.setHorizontalGroup(
+            escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1518, Short.MAX_VALUE)
+        );
+        escritorioLayout.setVerticalGroup(
+            escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 416, Short.MAX_VALUE)
+        );
+
+        jPanelCentral.add(escritorio, java.awt.BorderLayout.CENTER);
+
+        getContentPane().add(jPanelCentral, java.awt.BorderLayout.CENTER);
+
+        jPanelEstado.setLayout(new java.awt.BorderLayout());
+
+        jLabelEstado.setText("Lápiz");
+        jPanelEstado.add(jLabelEstado, java.awt.BorderLayout.WEST);
+
+        jLabelPosicion.setText("[x,y]");
+        jPanelEstado.add(jLabelPosicion, java.awt.BorderLayout.EAST);
+
+        jLabelRGB.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelRGB.setToolTipText("");
+        jLabelRGB.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanelEstado.add(jLabelRGB, java.awt.BorderLayout.CENTER);
 
         jToolBarEdicion.setRollover(true);
 
@@ -324,7 +351,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador1.setLayout(jPanelSeparador1Layout);
         jPanelSeparador1Layout.setHorizontalGroup(
             jPanelSeparador1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 50, Short.MAX_VALUE)
+            .addGap(0, 31, Short.MAX_VALUE)
         );
         jPanelSeparador1Layout.setVerticalGroup(
             jPanelSeparador1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -373,7 +400,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador2.setLayout(jPanelSeparador2Layout);
         jPanelSeparador2Layout.setHorizontalGroup(
             jPanelSeparador2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 50, Short.MAX_VALUE)
+            .addGap(0, 31, Short.MAX_VALUE)
         );
         jPanelSeparador2Layout.setVerticalGroup(
             jPanelSeparador2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -419,7 +446,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador3.setLayout(jPanelSeparador3Layout);
         jPanelSeparador3Layout.setHorizontalGroup(
             jPanelSeparador3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 50, Short.MAX_VALUE)
+            .addGap(0, 31, Short.MAX_VALUE)
         );
         jPanelSeparador3Layout.setVerticalGroup(
             jPanelSeparador3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -474,7 +501,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador4.setLayout(jPanelSeparador4Layout);
         jPanelSeparador4Layout.setHorizontalGroup(
             jPanelSeparador4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 50, Short.MAX_VALUE)
+            .addGap(0, 31, Short.MAX_VALUE)
         );
         jPanelSeparador4Layout.setVerticalGroup(
             jPanelSeparador4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -483,8 +510,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jToolBarEdicion.add(jPanelSeparador4);
 
-        jPanelOtros.setMaximumSize(new java.awt.Dimension(300, 100));
-        jPanelOtros.setPreferredSize(new java.awt.Dimension(300, 100));
+        jPanelOtros.setMaximumSize(new java.awt.Dimension(200, 100));
+        jPanelOtros.setMinimumSize(new java.awt.Dimension(100, 82));
+        jPanelOtros.setPreferredSize(new java.awt.Dimension(200, 100));
         jPanelOtros.setLayout(new java.awt.GridLayout(0, 1));
 
         jLabelOtros.setText("Otros");
@@ -536,7 +564,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador5.setLayout(jPanelSeparador5Layout);
         jPanelSeparador5Layout.setHorizontalGroup(
             jPanelSeparador5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 50, Short.MAX_VALUE)
+            .addGap(0, 31, Short.MAX_VALUE)
         );
         jPanelSeparador5Layout.setVerticalGroup(
             jPanelSeparador5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -582,7 +610,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador6.setLayout(jPanelSeparador6Layout);
         jPanelSeparador6Layout.setHorizontalGroup(
             jPanelSeparador6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 50, Short.MAX_VALUE)
+            .addGap(0, 31, Short.MAX_VALUE)
         );
         jPanelSeparador6Layout.setVerticalGroup(
             jPanelSeparador6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -593,7 +621,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jPanelOpcionesRotacion.setMaximumSize(new java.awt.Dimension(500, 100));
         jPanelOpcionesRotacion.setMinimumSize(new java.awt.Dimension(90, 80));
-        jPanelOpcionesRotacion.setPreferredSize(new java.awt.Dimension(400, 100));
+        jPanelOpcionesRotacion.setPreferredSize(new java.awt.Dimension(300, 100));
         jPanelOpcionesRotacion.setLayout(new java.awt.GridLayout(0, 1));
 
         jLabelRotacion.setText("Rotacion");
@@ -624,6 +652,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
         jPanelBotonesRotacion.add(jSliderRotacion);
+        jPanelBotonesRotacion.add(jSeparator5);
 
         jButtonRotacion90.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/rotacion90.png"))); // NOI18N
         jButtonRotacion90.setPreferredSize(new java.awt.Dimension(50, 25));
@@ -661,7 +690,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador7.setLayout(jPanelSeparador7Layout);
         jPanelSeparador7Layout.setHorizontalGroup(
             jPanelSeparador7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 50, Short.MAX_VALUE)
+            .addGap(0, 31, Short.MAX_VALUE)
         );
         jPanelSeparador7Layout.setVerticalGroup(
             jPanelSeparador7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -708,7 +737,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador8.setLayout(jPanelSeparador8Layout);
         jPanelSeparador8Layout.setHorizontalGroup(
             jPanelSeparador8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 50, Short.MAX_VALUE)
+            .addGap(0, 31, Short.MAX_VALUE)
         );
         jPanelSeparador8Layout.setVerticalGroup(
             jPanelSeparador8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -729,14 +758,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jToolBarEdicion.add(jPanelUmbralizacion);
 
-        jPanelSeparador9.setMaximumSize(new java.awt.Dimension(50, 100));
-        jPanelSeparador9.setPreferredSize(new java.awt.Dimension(50, 100));
+        jPanelSeparador9.setMaximumSize(new java.awt.Dimension(200, 100));
+        jPanelSeparador9.setPreferredSize(new java.awt.Dimension(200, 100));
 
         javax.swing.GroupLayout jPanelSeparador9Layout = new javax.swing.GroupLayout(jPanelSeparador9);
         jPanelSeparador9.setLayout(jPanelSeparador9Layout);
         jPanelSeparador9Layout.setHorizontalGroup(
             jPanelSeparador9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 50, Short.MAX_VALUE)
+            .addGap(0, 126, Short.MAX_VALUE)
         );
         jPanelSeparador9Layout.setVerticalGroup(
             jPanelSeparador9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -745,24 +774,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jToolBarEdicion.add(jPanelSeparador9);
 
-        escritorio.add(jToolBarEdicion, java.awt.BorderLayout.PAGE_END);
-
-        jPanelCentral.add(escritorio, java.awt.BorderLayout.CENTER);
-
-        getContentPane().add(jPanelCentral, java.awt.BorderLayout.CENTER);
-
-        jPanelEstado.setLayout(new java.awt.BorderLayout());
-
-        jLabelEstado.setText("Lápiz");
-        jPanelEstado.add(jLabelEstado, java.awt.BorderLayout.WEST);
-
-        jLabelPosicion.setText("[x,y]");
-        jPanelEstado.add(jLabelPosicion, java.awt.BorderLayout.EAST);
-
-        jLabelRGB.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelRGB.setToolTipText("");
-        jLabelRGB.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jPanelEstado.add(jLabelRGB, java.awt.BorderLayout.CENTER);
+        jPanelEstado.add(jToolBarEdicion, java.awt.BorderLayout.PAGE_START);
 
         getContentPane().add(jPanelEstado, java.awt.BorderLayout.PAGE_END);
 
@@ -1542,6 +1554,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JToolBar.Separator jSeparator3;
     private javax.swing.JToolBar.Separator jSeparator4;
+    private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSlider jSlider1;
     private javax.swing.JSlider jSliderBrillo;
     private javax.swing.JSlider jSliderRotacion;

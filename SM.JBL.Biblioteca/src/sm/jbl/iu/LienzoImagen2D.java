@@ -10,7 +10,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Stroke;
 import java.awt.image.BufferedImage;
@@ -145,7 +144,7 @@ public class LienzoImagen2D extends Lienzo2D {
     Stroke marco = new BasicStroke(3.0F, 1, 1, 1.0F, discontinuo, 0.0F);
     g2d.setStroke(marco);
     g2d.draw(clip);
-    g2d.setStroke(sk);
+    //g2d.setStroke(sk);
     }
 
     public void setExtension(String ext){

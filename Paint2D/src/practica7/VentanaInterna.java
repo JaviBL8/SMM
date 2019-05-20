@@ -74,18 +74,6 @@ public class VentanaInterna extends javax.swing.JInternalFrame {
 
         jScrollPane.setPreferredSize(new java.awt.Dimension(500, 350));
 
-        lienzoImagen2D.setPreferredSize(new java.awt.Dimension(500, 350));
-        lienzoImagen2D.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseMoved(java.awt.event.MouseEvent evt) {
-                lienzoImagen2DMouseMoved(evt);
-            }
-        });
-        lienzoImagen2D.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lienzoImagen2DMouseEntered(evt);
-            }
-        });
-
         javax.swing.GroupLayout lienzoImagen2DLayout = new javax.swing.GroupLayout(lienzoImagen2D);
         lienzoImagen2D.setLayout(lienzoImagen2DLayout);
         lienzoImagen2DLayout.setHorizontalGroup(
@@ -94,7 +82,7 @@ public class VentanaInterna extends javax.swing.JInternalFrame {
         );
         lienzoImagen2DLayout.setVerticalGroup(
             lienzoImagen2DLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 420, Short.MAX_VALUE)
+            .addGap(0, 705, Short.MAX_VALUE)
         );
 
         jScrollPane.setViewportView(lienzoImagen2D);
@@ -140,14 +128,6 @@ public class VentanaInterna extends javax.swing.JInternalFrame {
             parentPrincipal.jToggleButtonTransparencia.setSelected(true);
         }
     }//GEN-LAST:event_formInternalFrameActivated
-
-    private void lienzoImagen2DMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lienzoImagen2DMouseEntered
-        
-    }//GEN-LAST:event_lienzoImagen2DMouseEntered
-
-    private void lienzoImagen2DMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lienzoImagen2DMouseMoved
-        parentPrincipal.jLabelRGB.setText("[RGB]: " + this.lienzoImagen2D.getRGBValue());
-    }//GEN-LAST:event_lienzoImagen2DMouseMoved
     
     public LienzoImagen2D getLienzo(){
         return lienzoImagen2D;
