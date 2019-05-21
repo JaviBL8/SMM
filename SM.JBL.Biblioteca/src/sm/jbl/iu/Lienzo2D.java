@@ -261,10 +261,22 @@ public class Lienzo2D extends javax.swing.JPanel {
                     ((Ellipse2D) figura).getWidth(), ((Ellipse2D) figura).getHeight());
         }
         else if(figura instanceof Linea){
-            ((Linea)figura).setLocation(
-                    new Point2D.Double(punto2.getX()+offSet.getX(),
-                                       punto2.getY()+offSet.getY()));
+            ((Linea)figura).setLocation(new Point2D.Double(punto2.getX()+offSet.getX(),
+                                        punto2.getY()+offSet.getY()));
         }
+        else if(figura instanceof RectanguloRedondeado){
+            ((RectanguloRedondeado)figura).setFrame(punto2.getX()+offSet.getX(),punto2.getY()+offSet.getY(),
+                    ((RectanguloRedondeado) figura).getWidth(), ((RectanguloRedondeado) figura).getHeight());
+        }
+        else if(figura instanceof Arco){
+            ((Arco)figura).setFrame(punto2.getX()+offSet.getX(),punto2.getY()+offSet.getY(),
+                    ((Arco) figura).getWidth(), ((Arco) figura).getHeight());
+        }
+        else if(figura instanceof Curva1){
+            ((Curva1)figura).setCurve(punto2.getX()+offSet.getX(),punto2.getY()+offSet.getY(),punto1.getX(),punto1.getY(),
+                    ((Curva1) figura).getX2(), ((Curva1) figura).getY2());
+        }
+        
     }
     
     public void createShape(){
@@ -286,6 +298,14 @@ public class Lienzo2D extends javax.swing.JPanel {
             case RECTANGULO_REDONDEADO:
                 figura = new RectanguloRedondeado(punto1, punto2);
                 break;
+            case ARCO:
+                figura = new Arco(min(punto1.getX(),punto2.getX()),min(punto1.getY(),punto2.getY()),
+                        Math.abs(punto2.getX()-punto1.getX()),Math.abs(punto2.getY()-punto1.getY()));
+                break;
+            case CURVA1:
+                figura = new Curva1(min(punto1.getX(),punto2.getX()),min(punto1.getY(),punto2.getY()),
+                        Math.abs(punto2.getX()-punto1.getX()),Math.abs(punto2.getY()-punto1.getY()),punto1.getX(),punto1.getY());
+                break;
         }  
         figura.setColor(color);
         vShape.add(figura);
@@ -305,6 +325,12 @@ public class Lienzo2D extends javax.swing.JPanel {
                 break;
             case RECTANGULO_REDONDEADO:
                 ((RoundRectangle2D) vShape.get(vShape.size()-1)).setFrameFromDiagonal(punto1, punto2);
+                break;
+            case ARCO:
+                ((Arc2D) vShape.get(vShape.size()-1)).setFrameFromDiagonal(punto1, punto2);
+                break;
+            case CURVA1:
+                ((Curva1) vShape.get(vShape.size()-1)).setCurve(punto1, punto2, punto1);
                 break;
         }
     }

@@ -89,6 +89,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jToggleButtonOvalo = new javax.swing.JToggleButton();
         jToggleButtonEditar = new javax.swing.JToggleButton();
         jToggleButtonRoundRectangle = new javax.swing.JToggleButton();
+        jToggleButtonArco = new javax.swing.JToggleButton();
+        jToggleButtonCurva1 = new javax.swing.JToggleButton();
         jSeparator2 = new javax.swing.JToolBar.Separator();
         jComboBoxColores = new javax.swing.JComboBox(colores);
         jSeparator3 = new javax.swing.JToolBar.Separator();
@@ -275,6 +277,31 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
         jToolBarHerramientas.add(jToggleButtonRoundRectangle);
+
+        buttonGroup.add(jToggleButtonArco);
+        jToggleButtonArco.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/arc.png"))); // NOI18N
+        jToggleButtonArco.setFocusable(false);
+        jToggleButtonArco.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jToggleButtonArco.setMaximumSize(new java.awt.Dimension(36, 36));
+        jToggleButtonArco.setMinimumSize(new java.awt.Dimension(36, 36));
+        jToggleButtonArco.setPreferredSize(new java.awt.Dimension(36, 36));
+        jToggleButtonArco.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToggleButtonArco.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButtonArcoActionPerformed(evt);
+            }
+        });
+        jToolBarHerramientas.add(jToggleButtonArco);
+
+        buttonGroup.add(jToggleButtonCurva1);
+        jToggleButtonCurva1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/anchor-point.png"))); // NOI18N
+        jToggleButtonCurva1.setFocusable(false);
+        jToggleButtonCurva1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jToggleButtonCurva1.setMaximumSize(new java.awt.Dimension(36, 36));
+        jToggleButtonCurva1.setMinimumSize(new java.awt.Dimension(36, 36));
+        jToggleButtonCurva1.setPreferredSize(new java.awt.Dimension(36, 36));
+        jToggleButtonCurva1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBarHerramientas.add(jToggleButtonCurva1);
         jToolBarHerramientas.add(jSeparator2);
 
         jComboBoxColores.setToolTipText("Color");
@@ -1618,6 +1645,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jToggleButtonArcoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonArcoActionPerformed
+        VentanaInterna vi = (VentanaInterna)escritorio.getSelectedFrame();
+        if(vi != null){
+            vi.getLienzo().setEditar(false);
+            vi.getLienzo().setHerramienta(Herramientas.ARCO);
+            jLabelEstado.setText("Arco");
+        }
+    }//GEN-LAST:event_jToggleButtonArcoActionPerformed
     
     public LookupTable lookUpPersonalizado(double n){
         double K = 255.0D / Math.pow(255.0D, n);
@@ -1723,6 +1759,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JSlider jSliderUmbralizacion;
     protected javax.swing.JSpinner jSpinnerGrosor;
     protected javax.swing.JToggleButton jToggleButtonAlisado;
+    private javax.swing.JToggleButton jToggleButtonArco;
+    private javax.swing.JToggleButton jToggleButtonCurva1;
     protected javax.swing.JToggleButton jToggleButtonEditar;
     protected javax.swing.JToggleButton jToggleButtonLapiz;
     protected javax.swing.JToggleButton jToggleButtonLinea;

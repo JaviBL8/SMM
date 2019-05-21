@@ -14,5 +14,7 @@ public enum Herramientas {
     LINEA,
     CIRCULO,
     RECTANGULO,
-    RECTANGULO_REDONDEADO
+    RECTANGULO_REDONDEADO,
+    ARCO,
+    CURVA1
 }
