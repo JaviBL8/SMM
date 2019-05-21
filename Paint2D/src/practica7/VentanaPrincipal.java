@@ -39,6 +39,7 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import sm.image.EqualizationOp;
+import sm.jbl.image.Umbralizacion;
 import sm.image.KernelProducer;
 import sm.image.LookupTableProducer;
 import sm.image.TintOp;
@@ -54,6 +55,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     java.awt.Color[] colores = { java.awt.Color.BLACK, java.awt.Color.RED, java.awt.Color.BLUE, java.awt.Color.WHITE, java.awt.Color.YELLOW, java.awt.Color.GREEN };
     private Point2D posicion = new Point2D.Double();
     private BufferedImage imgSource, imgAux;
+    private VentanaInterna vi;
     
     /**
      * Creates new form VentanaPrincipal
@@ -148,7 +150,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador8 = new javax.swing.JPanel();
         jPanelUmbralizacion = new javax.swing.JPanel();
         jLabelUmbralizacion = new javax.swing.JLabel();
-        jSlider1 = new javax.swing.JSlider();
+        jSliderUmbralizacion = new javax.swing.JSlider();
         jPanelSeparador9 = new javax.swing.JPanel();
         jMenuBar = new javax.swing.JMenuBar();
         jMenuArchivo = new javax.swing.JMenu();
@@ -774,7 +776,23 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jLabelUmbralizacion.setText("Umbralizacion");
         jLabelUmbralizacion.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jPanelUmbralizacion.add(jLabelUmbralizacion);
-        jPanelUmbralizacion.add(jSlider1);
+
+        jSliderUmbralizacion.setMaximum(255);
+        jSliderUmbralizacion.setValue(127);
+        jSliderUmbralizacion.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSliderUmbralizacionStateChanged(evt);
+            }
+        });
+        jSliderUmbralizacion.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jSliderUmbralizacionFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jSliderUmbralizacionFocusLost(evt);
+            }
+        });
+        jPanelUmbralizacion.add(jSliderUmbralizacion);
 
         jToolBarEdicion.add(jPanelUmbralizacion);
 
@@ -1534,6 +1552,39 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             jLabelEstado.setText("Rectángulo redondeado");
         }
     }//GEN-LAST:event_jToggleButtonRoundRectangleActionPerformed
+
+    private void jSliderUmbralizacionStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderUmbralizacionStateChanged
+
+        if(vi!=null){
+            if(imgSource != null && jSliderUmbralizacion.hasFocus()){    
+                imgSource=convertImageType(imgSource,BufferedImage.TYPE_INT_ARGB);
+                Umbralizacion uop = new Umbralizacion(jSliderUmbralizacion.getValue());
+                uop.filter(imgSource, vi.getLienzo().getImage(false));
+                escritorio.repaint();
+            }
+            else{
+                System.out.println("No hay imagen o es nula");
+            }
+        }else{
+            System.out.println("No hay ventana interna o es nula");
+        }
+    }//GEN-LAST:event_jSliderUmbralizacionStateChanged
+
+    private void jSliderUmbralizacionFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jSliderUmbralizacionFocusGained
+        vi = (VentanaInterna)(escritorio.getSelectedFrame());
+        if(vi!=null){
+            ColorModel cm = vi.getLienzo().getImage().getColorModel();
+            WritableRaster raster = vi.getLienzo().getImage().copyData(null);
+            boolean alfaPre = vi.getLienzo().getImage().isAlphaPremultiplied();
+            imgSource = new BufferedImage(cm,raster,alfaPre,null);
+        }
+    }//GEN-LAST:event_jSliderUmbralizacionFocusGained
+
+    private void jSliderUmbralizacionFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jSliderUmbralizacionFocusLost
+        imgSource = null;
+        this.jSliderUmbralizacion.setValue(127);
+        this.escritorio.repaint();
+    }//GEN-LAST:event_jSliderUmbralizacionFocusLost
     
     public LookupTable seno(double w){
         double K = 255.0; // Cte de normalización
@@ -1623,9 +1674,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JToolBar.Separator jSeparator3;
     private javax.swing.JToolBar.Separator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
-    private javax.swing.JSlider jSlider1;
     private javax.swing.JSlider jSliderBrillo;
     private javax.swing.JSlider jSliderRotacion;
+    private javax.swing.JSlider jSliderUmbralizacion;
     protected javax.swing.JSpinner jSpinnerGrosor;
     protected javax.swing.JToggleButton jToggleButtonAlisado;
     protected javax.swing.JToggleButton jToggleButtonEditar;
