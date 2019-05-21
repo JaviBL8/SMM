@@ -25,6 +25,7 @@ import java.awt.image.Kernel;
 import java.awt.image.LookupOp;
 import java.awt.image.LookupTable;
 import java.awt.image.RescaleOp;
+import java.awt.image.ShortLookupTable;
 import java.awt.image.WritableRaster;
 import java.beans.PropertyVetoException;
 import sm.jbl.herramientas.Herramientas;
@@ -160,6 +161,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jCheckBoxMenuItemConvolve = new javax.swing.JCheckBoxMenuItem();
         jMenuItemNegativo = new javax.swing.JMenuItem();
         jMenuItemDuplicar = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -855,6 +857,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
         jMenuImagen.add(jMenuItemDuplicar);
+
+        jMenuItem1.setText("LookupOp");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenuImagen.add(jMenuItem1);
 
         jMenuBar.add(jMenuImagen);
 
@@ -1557,7 +1567,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         if(vi!=null){
             if(imgSource != null && jSliderUmbralizacion.hasFocus()){    
-                imgSource=convertImageType(imgSource,BufferedImage.TYPE_INT_ARGB);
+                vi.getLienzo().convertImageType(BufferedImage.TYPE_INT_ARGB);
                 Umbralizacion uop = new Umbralizacion(jSliderUmbralizacion.getValue());
                 uop.filter(imgSource, vi.getLienzo().getImage(false));
                 escritorio.repaint();
@@ -1585,6 +1595,36 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         this.jSliderUmbralizacion.setValue(127);
         this.escritorio.repaint();
     }//GEN-LAST:event_jSliderUmbralizacionFocusLost
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        VentanaInterna vi = (VentanaInterna) (escritorio.getSelectedFrame());
+        if (vi != null) {
+            BufferedImage imgSource = vi.getLienzo().getImage();
+            imgSource=convertImageType(imgSource,BufferedImage.TYPE_INT_ARGB);
+            if(imgSource!=null){
+                try{
+                    LookupTable lt = lookUpPersonalizado(180.0f / 255.0f);
+                    LookupOp lop = new LookupOp(lt, null);
+                    // Imagen origen y destino iguales
+                    imgAux = lop.filter(imgSource, null);
+                    vi.getLienzo().setImage(imgAux);
+                    vi.repaint();
+                } catch(Exception e){
+                    System.err.println(e.getLocalizedMessage());
+                }
+            }
+        }
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    
+    public LookupTable lookUpPersonalizado(double n){
+        double K = 255.0D / Math.pow(255.0D, n);
+        byte[] lt = new byte[256];
+        for (int l = 0; l <= 255; l++)
+          lt[l] = ((byte)(int)(K * Math.pow(l, n)));
+        ByteLookupTable slt = new ByteLookupTable(0, lt);
+
+        return slt;
+    }
     
     public LookupTable seno(double w){
         double K = 255.0; // Cte de normalización
@@ -1643,6 +1683,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenu jMenuEdicion;
     private javax.swing.JMenu jMenuImagen;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItemDuplicar;
     private javax.swing.JMenuItem jMenuItemNegativo;
     private javax.swing.JPanel jPanelBotonesColor;
