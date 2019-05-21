@@ -7,6 +7,7 @@
 //Hay que quitar el lienzo2d y poner un panel scroll para que cuando la imagen sea grande aparezcan las barras de scroll
 package practica7;
 
+import javafx.scene.paint.Color;
 import sm.jbl.herramientas.Herramientas;
 import sm.jbl.iu.LienzoImagen2D;
 
@@ -17,6 +18,8 @@ import sm.jbl.iu.LienzoImagen2D;
 public class VentanaInterna extends javax.swing.JInternalFrame {
 
     VentanaPrincipal parentPrincipal;
+    int indiceColores=0;
+    
     /**
      * Creates new form VentanaInterna
      */
@@ -82,7 +85,7 @@ public class VentanaInterna extends javax.swing.JInternalFrame {
         );
         lienzoImagen2DLayout.setVerticalGroup(
             lienzoImagen2DLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 435, Short.MAX_VALUE)
+            .addGap(0, 1272, Short.MAX_VALUE)
         );
 
         jScrollPane.setViewportView(lienzoImagen2D);
@@ -98,7 +101,7 @@ public class VentanaInterna extends javax.swing.JInternalFrame {
         
         Herramientas herramienta = lienzoImagen2D.getHerramienta();
         parentPrincipal.buttonGroup.clearSelection();
-        
+        //Botones herramientas
         switch(herramienta){
             case LAPIZ:               
                 parentPrincipal.jToggleButtonLapiz.setSelected(true);
@@ -118,15 +121,24 @@ public class VentanaInterna extends javax.swing.JInternalFrame {
                 break;
         }    
         parentPrincipal.buttonGroupOpciones.clearSelection();
-        if(lienzoImagen2D.getRellenar()){
-            parentPrincipal.jToggleButtonRelleno.setSelected(true);
+       
+        //Botones propiedades
+        if(lienzoImagen2D.getEditar()){
+            parentPrincipal.jToggleButtonEditar.setSelected(true);
+            if(lienzoImagen2D.getRellenar()){
+                parentPrincipal.jToggleButtonRelleno.setSelected(true);
+            }
+            if(lienzoImagen2D.getAlisar()){
+                parentPrincipal.jToggleButtonAlisado.setSelected(true);
+            }
+            if(lienzoImagen2D.getTransparentar()){
+                parentPrincipal.jToggleButtonTransparencia.setSelected(true);
+            }
         }
-        else if(lienzoImagen2D.getAlisar()){
-            parentPrincipal.jToggleButtonAlisado.setSelected(true);
-        }
-        else if(lienzoImagen2D.getTransparentar()){
-            parentPrincipal.jToggleButtonTransparencia.setSelected(true);
-        }
+        
+        //Colores
+        parentPrincipal.jComboBoxColores.setSelectedIndex(indiceColores);
+        
     }//GEN-LAST:event_formInternalFrameActivated
     
     public LienzoImagen2D getLienzo(){

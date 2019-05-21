@@ -1018,7 +1018,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void jComboBoxColoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxColoresActionPerformed
         java.awt.Color c = (java.awt.Color)jComboBoxColores.getSelectedItem();
         VentanaInterna vi = (VentanaInterna)escritorio.getSelectedFrame();
-        if(vi != null) vi.getLienzo().setColor(c);
+        if(vi != null){
+            vi.getLienzo().setColor(c);
+            vi.indiceColores=jComboBoxColores.getSelectedIndex();
+        }
         repaint();
     }//GEN-LAST:event_jComboBoxColoresActionPerformed
 
@@ -1665,7 +1668,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jButtonTintado;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItemConvolve;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItemRescaleOp;
-    private javax.swing.JComboBox jComboBoxColores;
+    protected javax.swing.JComboBox jComboBoxColores;
     private javax.swing.JComboBox<String> jComboBoxEspacioColor;
     private javax.swing.JComboBox<String> jComboBoxFiltros;
     private javax.swing.JLabel jLabel1;
