@@ -6,6 +6,7 @@
 package practica7;
 
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Transparency;
@@ -37,10 +38,13 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import sm.image.EqualizationOp;
 import sm.image.KernelProducer;
 import sm.image.LookupTableProducer;
+import sm.image.TintOp;
 import sm.jbl.graficos.Figura;
-
+import sm.jbl.image.SepiaOp;
+import sm.jbl.iu.ColorChooserButton;
 /**
  *
  * @author JaviBl8
@@ -81,6 +85,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jToggleButtonRectangulo = new javax.swing.JToggleButton();
         jToggleButtonOvalo = new javax.swing.JToggleButton();
         jToggleButtonEditar = new javax.swing.JToggleButton();
+        jToggleButtonRoundRectangle = new javax.swing.JToggleButton();
         jSeparator2 = new javax.swing.JToolBar.Separator();
         jComboBoxColores = new javax.swing.JComboBox(colores);
         jSeparator3 = new javax.swing.JToolBar.Separator();
@@ -115,10 +120,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelOtros = new javax.swing.JPanel();
         jLabelOtros = new javax.swing.JLabel();
         jPanelBotonesOtros = new javax.swing.JPanel();
-        jButtonSepia = new javax.swing.JButton();
         jButtonSeno = new javax.swing.JButton();
-        jButtonSeno1 = new javax.swing.JButton();
-        jButtonSeno2 = new javax.swing.JButton();
+        jButtonSepia = new javax.swing.JButton();
+        jButtonTintado = new javax.swing.JButton();
+        jButtonEcualizacion = new javax.swing.JButton();
         jPanelSeparador5 = new javax.swing.JPanel();
         jPanelColor = new javax.swing.JPanel();
         jLabelColor = new javax.swing.JLabel();
@@ -251,6 +256,21 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
         jToolBarHerramientas.add(jToggleButtonEditar);
+
+        buttonGroup.add(jToggleButtonRoundRectangle);
+        jToggleButtonRoundRectangle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/rounded-rectangle.png"))); // NOI18N
+        jToggleButtonRoundRectangle.setFocusable(false);
+        jToggleButtonRoundRectangle.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jToggleButtonRoundRectangle.setMaximumSize(new java.awt.Dimension(36, 36));
+        jToggleButtonRoundRectangle.setMinimumSize(new java.awt.Dimension(36, 36));
+        jToggleButtonRoundRectangle.setPreferredSize(new java.awt.Dimension(36, 36));
+        jToggleButtonRoundRectangle.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToggleButtonRoundRectangle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButtonRoundRectangleActionPerformed(evt);
+            }
+        });
+        jToolBarHerramientas.add(jToggleButtonRoundRectangle);
         jToolBarHerramientas.add(jSeparator2);
 
         jComboBoxColores.setToolTipText("Color");
@@ -322,7 +342,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         );
         escritorioLayout.setVerticalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 416, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         jPanelCentral.add(escritorio, java.awt.BorderLayout.CENTER);
@@ -464,7 +484,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jLabel1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jPanelConstraste.add(jLabel1);
 
-        jPanelBotonesContraste.setLayout(new java.awt.GridLayout());
+        jPanelBotonesContraste.setLayout(new java.awt.GridLayout(1, 0));
 
         jButtonOscuridad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/iluminar.png"))); // NOI18N
         jButtonOscuridad.addActionListener(new java.awt.event.ActionListener() {
@@ -519,15 +539,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jLabelOtros.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jPanelOtros.add(jLabelOtros);
 
-        jPanelBotonesOtros.setLayout(new java.awt.GridLayout());
-
-        jButtonSepia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/sepia.png"))); // NOI18N
-        jButtonSepia.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonSepiaActionPerformed(evt);
-            }
-        });
-        jPanelBotonesOtros.add(jButtonSepia);
+        jPanelBotonesOtros.setLayout(new java.awt.GridLayout(1, 0));
 
         jButtonSeno.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/sinusoidal.png"))); // NOI18N
         jButtonSeno.addActionListener(new java.awt.event.ActionListener() {
@@ -537,21 +549,29 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         });
         jPanelBotonesOtros.add(jButtonSeno);
 
-        jButtonSeno1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/sinusoidal.png"))); // NOI18N
-        jButtonSeno1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonSepia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/sepia.png"))); // NOI18N
+        jButtonSepia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonSeno1ActionPerformed(evt);
+                jButtonSepiaActionPerformed(evt);
             }
         });
-        jPanelBotonesOtros.add(jButtonSeno1);
+        jPanelBotonesOtros.add(jButtonSepia);
 
-        jButtonSeno2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/sinusoidal.png"))); // NOI18N
-        jButtonSeno2.addActionListener(new java.awt.event.ActionListener() {
+        jButtonTintado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/tintar.png"))); // NOI18N
+        jButtonTintado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonSeno2ActionPerformed(evt);
+                jButtonTintadoActionPerformed(evt);
             }
         });
-        jPanelBotonesOtros.add(jButtonSeno2);
+        jPanelBotonesOtros.add(jButtonTintado);
+
+        jButtonEcualizacion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/ecualizar.png"))); // NOI18N
+        jButtonEcualizacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEcualizacionActionPerformed(evt);
+            }
+        });
+        jPanelBotonesOtros.add(jButtonEcualizacion);
 
         jPanelOtros.add(jPanelBotonesOtros);
 
@@ -581,7 +601,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jLabelColor.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jPanelColor.add(jLabelColor);
 
-        jPanelBotonesColor.setLayout(new java.awt.GridLayout());
+        jPanelBotonesColor.setLayout(new java.awt.GridLayout(1, 0));
 
         jButtonColor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/bandas.png"))); // NOI18N
         jButtonColor.addActionListener(new java.awt.event.ActionListener() {
@@ -628,7 +648,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jLabelRotacion.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jPanelOpcionesRotacion.add(jLabelRotacion);
 
-        jPanelBotonesRotacion.setLayout(new java.awt.GridLayout());
+        jPanelBotonesRotacion.setLayout(new java.awt.GridLayout(1, 0));
 
         jSliderRotacion.setMajorTickSpacing(5);
         jSliderRotacion.setMaximum(180);
@@ -708,7 +728,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jLabelEscala.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jPanelEscala.add(jLabelEscala);
 
-        jPanelBotonesEscala.setLayout(new java.awt.GridLayout());
+        jPanelBotonesEscala.setLayout(new java.awt.GridLayout(1, 0));
 
         jButtonAumentarEscala.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/aumentar.png"))); // NOI18N
         jButtonAumentarEscala.addActionListener(new java.awt.event.ActionListener() {
@@ -1207,7 +1227,20 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonSobreExpuestaActionPerformed
 
     private void jButtonSepiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSepiaActionPerformed
-        
+        VentanaInterna vi = (VentanaInterna)(escritorio.getSelectedFrame());
+        if(vi!=null){
+            BufferedImage imgSource = vi.getLienzo().getImage();
+            if(imgSource != null){             
+                SepiaOp sepia = new SepiaOp();
+                sepia.filter(imgSource, imgSource);
+            }
+            else{
+                System.out.println("No hay imagen o es nula");
+            }
+        }else{
+            System.out.println("No hay ventana interna o es nula");
+        }
+        this.repaint();
     }//GEN-LAST:event_jButtonSepiaActionPerformed
 
     private void jButtonRotacion90ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRotacion90ActionPerformed
@@ -1459,13 +1492,48 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jComboBoxEspacioColorActionPerformed
 
-    private void jButtonSeno1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSeno1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonSeno1ActionPerformed
+    private void jButtonTintadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTintadoActionPerformed
+        VentanaInterna vi = (VentanaInterna)(escritorio.getSelectedFrame());
+        if(vi!=null){
+            BufferedImage imgSource = vi.getLienzo().getImage();
+            if(imgSource != null){   
+                Color c = (java.awt.Color)jComboBoxColores.getSelectedItem();
+                TintOp tintado = new TintOp(c,0.5f);
+                tintado.filter(imgSource, imgSource);
+            }
+            else{
+                System.out.println("No hay imagen o es nula");
+            }
+        }else{
+            System.out.println("No hay ventana interna o es nula");
+        }
+        this.repaint();
+    }//GEN-LAST:event_jButtonTintadoActionPerformed
 
-    private void jButtonSeno2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSeno2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonSeno2ActionPerformed
+    private void jButtonEcualizacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEcualizacionActionPerformed
+        VentanaInterna vi = (VentanaInterna)(escritorio.getSelectedFrame());
+        if(vi!=null){
+            BufferedImage imgSource = vi.getLienzo().getImage();
+            if(imgSource != null){             
+                EqualizationOp ecualizacion = new EqualizationOp();
+                ecualizacion.filter(imgSource, imgSource);
+            }
+            else{
+                System.out.println("No hay imagen o es nula");
+            }
+        }else{
+            System.out.println("No hay ventana interna o es nula");
+        }
+    }//GEN-LAST:event_jButtonEcualizacionActionPerformed
+
+    private void jToggleButtonRoundRectangleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonRoundRectangleActionPerformed
+        VentanaInterna vi = (VentanaInterna)escritorio.getSelectedFrame();
+        if(vi != null){
+            vi.getLienzo().setEditar(false);
+            vi.getLienzo().setHerramienta(Herramientas.RECTANGULO_REDONDEADO);
+            jLabelEstado.setText("Rectángulo redondeado");
+        }
+    }//GEN-LAST:event_jToggleButtonRoundRectangleActionPerformed
     
     public LookupTable seno(double w){
         double K = 255.0; // Cte de normalización
@@ -1492,6 +1560,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jButtonAumentarEscala;
     private javax.swing.JButton jButtonColor;
     private javax.swing.JButton jButtonDisminuirEscala;
+    private javax.swing.JButton jButtonEcualizacion;
     private javax.swing.JButton jButtonGuardar;
     private javax.swing.JButton jButtonNormal;
     private javax.swing.JButton jButtonNuevo;
@@ -1500,10 +1569,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jButtonRotacion270;
     private javax.swing.JButton jButtonRotacion90;
     private javax.swing.JButton jButtonSeno;
-    private javax.swing.JButton jButtonSeno1;
-    private javax.swing.JButton jButtonSeno2;
     private javax.swing.JButton jButtonSepia;
     private javax.swing.JButton jButtonSobreExpuesta;
+    private javax.swing.JButton jButtonTintado;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItemConvolve;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItemRescaleOp;
     private javax.swing.JComboBox jComboBoxColores;
@@ -1566,9 +1634,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     protected javax.swing.JToggleButton jToggleButtonOvalo;
     protected javax.swing.JToggleButton jToggleButtonRectangulo;
     protected javax.swing.JToggleButton jToggleButtonRelleno;
+    private javax.swing.JToggleButton jToggleButtonRoundRectangle;
     protected javax.swing.JToggleButton jToggleButtonTransparencia;
     private javax.swing.JToolBar jToolBarEdicion;
     private javax.swing.JToolBar jToolBarHerramientas;
     // End of variables declaration//GEN-END:variables
-
 }

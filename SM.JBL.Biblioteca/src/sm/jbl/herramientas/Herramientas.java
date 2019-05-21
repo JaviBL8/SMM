@@ -13,5 +13,6 @@ public enum Herramientas {
     LAPIZ,
     LINEA,
     CIRCULO,
-    RECTANGULO
+    RECTANGULO,
+    RECTANGULO_REDONDEADO
 }

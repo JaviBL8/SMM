@@ -283,6 +283,9 @@ public class Lienzo2D extends javax.swing.JPanel {
                 figura = new Elipse(min(punto1.getX(),punto2.getX()),min(punto1.getY(),punto2.getY()),
                         Math.abs(punto2.getX()-punto1.getX()),Math.abs(punto2.getY()-punto1.getY()));
                 break;
+            case RECTANGULO_REDONDEADO:
+                figura = new RectanguloRedondeado(punto1, punto2);
+                break;
         }  
         figura.setColor(color);
         vShape.add(figura);
@@ -299,6 +302,9 @@ public class Lienzo2D extends javax.swing.JPanel {
                 break;
             case CIRCULO:
                 ((Ellipse2D) vShape.get(vShape.size()-1)).setFrameFromDiagonal(punto1, punto2);
+                break;
+            case RECTANGULO_REDONDEADO:
+                ((RoundRectangle2D) vShape.get(vShape.size()-1)).setFrameFromDiagonal(punto1, punto2);
                 break;
         }
     }

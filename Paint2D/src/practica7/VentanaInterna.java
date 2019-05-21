@@ -82,7 +82,7 @@ public class VentanaInterna extends javax.swing.JInternalFrame {
         );
         lienzoImagen2DLayout.setVerticalGroup(
             lienzoImagen2DLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 705, Short.MAX_VALUE)
+            .addGap(0, 435, Short.MAX_VALUE)
         );
 
         jScrollPane.setViewportView(lienzoImagen2D);
