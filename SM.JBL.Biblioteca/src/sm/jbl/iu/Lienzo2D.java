@@ -6,7 +6,6 @@
 package sm.jbl.iu;
 
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -35,19 +34,17 @@ public class Lienzo2D extends javax.swing.JPanel {
     private Point2D punto2; 
     private Point2D offSet;
     private Figura figura = null;
+    private Rectangulo boundingBox;
     List<Figura> vShape = new ArrayList();
     protected Rectangle clip;    
     private boolean editar=false;
-    private boolean rellenar=false;
     private Color color;
     private ImageIcon imgRelleno = new ImageIcon(getClass().getResource("/iconos/rellenar.png"));
     private ImageIcon imgAlisado = new ImageIcon(getClass().getResource("/iconos/alisar.png"));
     private ImageIcon imgTrasnparente = new ImageIcon(getClass().getResource("/iconos/transparencia.png"));
     private Toolkit tk = Toolkit.getDefaultToolkit();
-    private Cursor cursor;
-    private boolean alisar;
-    private boolean transparentar;
     ArrayList<LienzoListener> lienzoEventListeners = new ArrayList();
+    private boolean figuraSeleccionada=false;
     
     
     /**
@@ -66,13 +63,12 @@ public class Lienzo2D extends javax.swing.JPanel {
     
     public void setFigura(Figura f){
         this.figura = f;
+        figuraSeleccionada=true;
+        this.repaint();
     }
     
     public void setEditar(boolean editar){
         this.editar=editar;
-        this.rellenar=false;
-        this.alisar=false;
-        this.transparentar=false;
     }
     
     public void setRellenar(boolean rellenar) {
@@ -81,26 +77,13 @@ public class Lienzo2D extends javax.swing.JPanel {
         repaint();
     }
     
-    public boolean getRellenar(){
-        return rellenar;
-    }
-    
     public void setTransparentar(boolean transparentar) {
         figura.setTransparente(true);
-    }
-    
-    public boolean getTransparentar(){
-        return transparentar;
-    }
-    
-    public boolean getAlisar(){
-        return alisar;
     }
     
     public void setAlisar(boolean alisar) {
         figura.setAlisado(true);
     }
-    
     
     public void setColor(Color c){
         if(c!=null){
@@ -120,12 +103,6 @@ public class Lienzo2D extends javax.swing.JPanel {
             }
         });
         addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                formMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                formMouseExited(evt);
-            }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 formMousePressed(evt);
             }
@@ -186,31 +163,6 @@ public class Lienzo2D extends javax.swing.JPanel {
     private void formMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseReleased
         formMouseDragged(evt);
     }//GEN-LAST:event_formMouseReleased
-
-    private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
-        
-        if(rellenar){
-            cursor=tk.createCustomCursor(imgRelleno.getImage(), new Point(1,1), "Cursor");
-            this.setCursor(cursor);
-        }
-        else if(alisar){
-            cursor=tk.createCustomCursor(imgAlisado.getImage(), new Point(1,1), "Cursor");
-            this.setCursor(cursor);
-        }
-        else if(transparentar){
-            cursor=tk.createCustomCursor(imgTrasnparente.getImage(), new Point(1,1), "Cursor");
-            this.setCursor(cursor);
-        }
-        else if(editar){
-            Cursor c = new Cursor(Cursor.MOVE_CURSOR);
-            this.setCursor(c);
-        }
-    }//GEN-LAST:event_formMouseEntered
-
-    private void formMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseExited
-        Cursor c = new Cursor(Cursor.DEFAULT_CURSOR);
-        this.setCursor(c);
-    }//GEN-LAST:event_formMouseExited
     
     private Shape getSelectedShape(Point2D p){
         for(Figura s:vShape)
@@ -223,21 +175,18 @@ public class Lienzo2D extends javax.swing.JPanel {
         super.paint(g);
         Graphics2D g2d = (Graphics2D)g;
         setAtributos(g2d);
+        if(figuraSeleccionada){
+            g2d.draw(((Shape)figura).getBounds2D());
+        }
     }
     
     public void setAtributos(Graphics2D g2d){
-//        g2d.setColor(Color.BLACK);
-//        g2d.setPaint(opciones.color);
-//        g2d.setStroke(stroke);
-//        if(opciones.transparencia) g2d.setComposite(comp);
-//        if(opciones.alisado) g2d.setRenderingHints(render);
-//        if(opciones.recortar) g2d.clip(clip);
+        
         for(Figura s:vShape) {
             //g2d.draw((Shape)s);
             g2d.clip(clip);
             s.paint(g2d);
         }
-        
     }
     
     public void setHerramienta(Herramientas herramienta){
@@ -358,21 +307,6 @@ public class Lienzo2D extends javax.swing.JPanel {
         }
     }
     
-    
-//    public Propiedades getPropiedades(Shape s){
-//        Propiedades p;
-//        if(s instanceof Rectangulo){
-//            p = ((Rectangulo)s).getPropiedades();
-//        }
-//        else if(s instanceof Linea){
-//            p = ((Linea)s).getPropiedades();
-//        }
-//        else if(s instanceof Elipse){
-//            p = ((Elipse)s).getPropiedades();
-//        }
-//        return p;
-//    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

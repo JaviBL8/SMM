@@ -34,6 +34,9 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -57,23 +60,23 @@ import sm.jbl.iu.ColorChooserButton;
 public class VentanaPrincipal extends javax.swing.JFrame {  
     
     java.awt.Color[] colores = { java.awt.Color.BLACK, java.awt.Color.RED, java.awt.Color.BLUE, java.awt.Color.WHITE, java.awt.Color.YELLOW, java.awt.Color.GREEN };
-    private Point2D posicion = new Point2D.Double();
     private BufferedImage imgSource, imgAux;
     private VentanaInterna vi;
     
     /**
      * Creates new form VentanaPrincipal
      */
-    public VentanaPrincipal() throws PropertyVetoException{
+    public VentanaPrincipal(){
         initComponents();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         jToggleButtonLapiz.setSelected(true);
+        jComboBoxFiguras.setModel(new DefaultComboBoxModel());
     }
     
     public class MiManejadorLienzo extends LienzoAdapter{
         @Override
         public void shapeAdded(LienzoEvent evt){
-            jComboBoxFiguras.addItem((Figura) evt.getForma());
+            ((DefaultComboBoxModel)jComboBoxFiguras.getModel()).addElement(evt.getForma());
             Figura f = (Figura) jComboBoxFiguras.getSelectedItem();
             System.out.println("Figura "+evt.getForma()+" añadida");
         }
@@ -108,9 +111,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jComboBoxFiguras = new javax.swing.JComboBox<>();
         jSpinnerGrosor = new javax.swing.JSpinner();
         jSeparator4 = new javax.swing.JToolBar.Separator();
-        jToggleButtonRelleno = new javax.swing.JToggleButton();
-        jToggleButtonTransparencia = new javax.swing.JToggleButton();
-        jToggleButtonAlisado = new javax.swing.JToggleButton();
+        jButtonRelleno = new javax.swing.JButton();
+        jButtonTransparencia = new javax.swing.JButton();
+        jButtonAlisado = new javax.swing.JButton();
         jPanelCentral = new javax.swing.JPanel();
         escritorio = new javax.swing.JDesktopPane();
         jPanelEstado = new javax.swing.JPanel();
@@ -334,41 +337,33 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jToolBarHerramientas.add(jSpinnerGrosor);
         jToolBarHerramientas.add(jSeparator4);
 
-        buttonGroupOpciones.add(jToggleButtonRelleno);
-        jToggleButtonRelleno.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/rellenar.png"))); // NOI18N
-        jToggleButtonRelleno.setFocusable(false);
-        jToggleButtonRelleno.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jToggleButtonRelleno.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToggleButtonRelleno.addActionListener(new java.awt.event.ActionListener() {
+        jButtonRelleno.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/rellenar.png"))); // NOI18N
+        jButtonRelleno.setFocusable(false);
+        jButtonRelleno.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButtonRelleno.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButtonRelleno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButtonRellenoActionPerformed(evt);
+                jButtonRellenoActionPerformed(evt);
             }
         });
-        jToolBarHerramientas.add(jToggleButtonRelleno);
+        jToolBarHerramientas.add(jButtonRelleno);
 
-        buttonGroupOpciones.add(jToggleButtonTransparencia);
-        jToggleButtonTransparencia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/transparencia.png"))); // NOI18N
-        jToggleButtonTransparencia.setFocusable(false);
-        jToggleButtonTransparencia.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jToggleButtonTransparencia.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToggleButtonTransparencia.addActionListener(new java.awt.event.ActionListener() {
+        jButtonTransparencia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/transparencia.png"))); // NOI18N
+        jButtonTransparencia.setFocusable(false);
+        jButtonTransparencia.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButtonTransparencia.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButtonTransparencia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButtonTransparenciaActionPerformed(evt);
+                jButtonTransparenciaActionPerformed(evt);
             }
         });
-        jToolBarHerramientas.add(jToggleButtonTransparencia);
+        jToolBarHerramientas.add(jButtonTransparencia);
 
-        buttonGroupOpciones.add(jToggleButtonAlisado);
-        jToggleButtonAlisado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/alisar.png"))); // NOI18N
-        jToggleButtonAlisado.setFocusable(false);
-        jToggleButtonAlisado.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jToggleButtonAlisado.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToggleButtonAlisado.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButtonAlisadoActionPerformed(evt);
-            }
-        });
-        jToolBarHerramientas.add(jToggleButtonAlisado);
+        jButtonAlisado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/alisar.png"))); // NOI18N
+        jButtonAlisado.setFocusable(false);
+        jButtonAlisado.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButtonAlisado.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBarHerramientas.add(jButtonAlisado);
 
         getContentPane().add(jToolBarHerramientas, java.awt.BorderLayout.PAGE_START);
 
@@ -378,11 +373,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         escritorio.setLayout(escritorioLayout);
         escritorioLayout.setHorizontalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1225, Short.MAX_VALUE)
+            .addGap(0, 1301, Short.MAX_VALUE)
         );
         escritorioLayout.setVerticalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 239, Short.MAX_VALUE)
+            .addGap(0, 284, Short.MAX_VALUE)
         );
 
         jPanelCentral.add(escritorio, java.awt.BorderLayout.CENTER);
@@ -411,7 +406,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador1.setLayout(jPanelSeparador1Layout);
         jPanelSeparador1Layout.setHorizontalGroup(
             jPanelSeparador1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 20, Short.MAX_VALUE)
+            .addGap(0, 23, Short.MAX_VALUE)
         );
         jPanelSeparador1Layout.setVerticalGroup(
             jPanelSeparador1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -460,7 +455,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador2.setLayout(jPanelSeparador2Layout);
         jPanelSeparador2Layout.setHorizontalGroup(
             jPanelSeparador2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 20, Short.MAX_VALUE)
+            .addGap(0, 23, Short.MAX_VALUE)
         );
         jPanelSeparador2Layout.setVerticalGroup(
             jPanelSeparador2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -506,7 +501,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador3.setLayout(jPanelSeparador3Layout);
         jPanelSeparador3Layout.setHorizontalGroup(
             jPanelSeparador3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 20, Short.MAX_VALUE)
+            .addGap(0, 23, Short.MAX_VALUE)
         );
         jPanelSeparador3Layout.setVerticalGroup(
             jPanelSeparador3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -561,7 +556,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador4.setLayout(jPanelSeparador4Layout);
         jPanelSeparador4Layout.setHorizontalGroup(
             jPanelSeparador4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 20, Short.MAX_VALUE)
+            .addGap(0, 23, Short.MAX_VALUE)
         );
         jPanelSeparador4Layout.setVerticalGroup(
             jPanelSeparador4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -624,7 +619,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador5.setLayout(jPanelSeparador5Layout);
         jPanelSeparador5Layout.setHorizontalGroup(
             jPanelSeparador5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 20, Short.MAX_VALUE)
+            .addGap(0, 23, Short.MAX_VALUE)
         );
         jPanelSeparador5Layout.setVerticalGroup(
             jPanelSeparador5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -670,7 +665,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador6.setLayout(jPanelSeparador6Layout);
         jPanelSeparador6Layout.setHorizontalGroup(
             jPanelSeparador6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 20, Short.MAX_VALUE)
+            .addGap(0, 23, Short.MAX_VALUE)
         );
         jPanelSeparador6Layout.setVerticalGroup(
             jPanelSeparador6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -750,7 +745,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador7.setLayout(jPanelSeparador7Layout);
         jPanelSeparador7Layout.setHorizontalGroup(
             jPanelSeparador7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 20, Short.MAX_VALUE)
+            .addGap(0, 23, Short.MAX_VALUE)
         );
         jPanelSeparador7Layout.setVerticalGroup(
             jPanelSeparador7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -797,7 +792,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador8.setLayout(jPanelSeparador8Layout);
         jPanelSeparador8Layout.setHorizontalGroup(
             jPanelSeparador8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 20, Short.MAX_VALUE)
+            .addGap(0, 23, Short.MAX_VALUE)
         );
         jPanelSeparador8Layout.setVerticalGroup(
             jPanelSeparador8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -841,7 +836,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador9.setLayout(jPanelSeparador9Layout);
         jPanelSeparador9Layout.setHorizontalGroup(
             jPanelSeparador9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 82, Short.MAX_VALUE)
+            .addGap(0, 94, Short.MAX_VALUE)
         );
         jPanelSeparador9Layout.setVerticalGroup(
             jPanelSeparador9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1198,28 +1193,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jComboBoxFiltrosFocusGained
 
-    private void jToggleButtonRellenoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonRellenoActionPerformed
-        VentanaInterna vi = (VentanaInterna)escritorio.getSelectedFrame();
-        if(vi != null){
-            vi.getLienzo().setEditar(true);
-            vi.getLienzo().setRellenar(true);
-        }
-    }//GEN-LAST:event_jToggleButtonRellenoActionPerformed
-
-    private void jToggleButtonTransparenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonTransparenciaActionPerformed
-        VentanaInterna vi = (VentanaInterna)escritorio.getSelectedFrame();
-        if(vi != null){
-            vi.getLienzo().setTransparentar(jToggleButtonEditar.isSelected());
-        }    
-    }//GEN-LAST:event_jToggleButtonTransparenciaActionPerformed
-
-    private void jToggleButtonAlisadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonAlisadoActionPerformed
-        VentanaInterna vi = (VentanaInterna)escritorio.getSelectedFrame();
-        if(vi != null){
-            vi.getLienzo().setAlisar(jToggleButtonEditar.isSelected());
-        }
-    }//GEN-LAST:event_jToggleButtonAlisadoActionPerformed
-
     private void jButtonNormalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNormalActionPerformed
         VentanaInterna vi = (VentanaInterna) (escritorio.getSelectedFrame());
         if (vi != null) {
@@ -1566,6 +1539,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void jButtonTintadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTintadoActionPerformed
         VentanaInterna vi = (VentanaInterna)(escritorio.getSelectedFrame());
         if(vi!=null){
+            vi.getLienzo().convertImageType(BufferedImage.TYPE_INT_RGB);
             BufferedImage imgSource = vi.getLienzo().getImage();
             if(imgSource != null){   
                 Color c = (java.awt.Color)jComboBoxColores.getSelectedItem();
@@ -1674,6 +1648,22 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             vi.getLienzo().setFigura((Figura) jComboBoxFiguras.getSelectedItem());
         }
     }//GEN-LAST:event_jComboBoxFigurasActionPerformed
+
+    private void jButtonRellenoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRellenoActionPerformed
+        VentanaInterna vi = (VentanaInterna)escritorio.getSelectedFrame();
+        if(vi != null){
+            vi.getLienzo().setEditar(true);
+            vi.getLienzo().setRellenar(true);
+        }
+    }//GEN-LAST:event_jButtonRellenoActionPerformed
+
+    private void jButtonTransparenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTransparenciaActionPerformed
+        VentanaInterna vi = (VentanaInterna)escritorio.getSelectedFrame();
+        if(vi != null){
+            vi.getLienzo().setEditar(true);
+            vi.getLienzo().setTransparentar(true);
+        }
+    }//GEN-LAST:event_jButtonTransparenciaActionPerformed
     
     public LookupTable lookUpPersonalizado(double n){
         double K = 255.0D / Math.pow(255.0D, n);
@@ -1707,6 +1697,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     protected javax.swing.ButtonGroup buttonGroupOpciones;
     private javax.swing.JDesktopPane escritorio;
     private javax.swing.JButton jButtonAbrir;
+    private javax.swing.JButton jButtonAlisado;
     private javax.swing.JButton jButtonAumentarEscala;
     private javax.swing.JButton jButtonColor;
     private javax.swing.JButton jButtonDisminuirEscala;
@@ -1715,6 +1706,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jButtonNormal;
     private javax.swing.JButton jButtonNuevo;
     private javax.swing.JButton jButtonOscuridad;
+    private javax.swing.JButton jButtonRelleno;
     private javax.swing.JButton jButtonRotacion180;
     private javax.swing.JButton jButtonRotacion270;
     private javax.swing.JButton jButtonRotacion90;
@@ -1722,11 +1714,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jButtonSepia;
     private javax.swing.JButton jButtonSobreExpuesta;
     private javax.swing.JButton jButtonTintado;
+    private javax.swing.JButton jButtonTransparencia;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItemConvolve;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItemRescaleOp;
     protected javax.swing.JComboBox jComboBoxColores;
     private javax.swing.JComboBox<String> jComboBoxEspacioColor;
-    private javax.swing.JComboBox<Figura> jComboBoxFiguras;
+    protected javax.swing.JComboBox<Figura> jComboBoxFiguras;
     private javax.swing.JComboBox<String> jComboBoxFiltros;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelBrillo;
@@ -1779,16 +1772,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JSlider jSliderRotacion;
     private javax.swing.JSlider jSliderUmbralizacion;
     protected javax.swing.JSpinner jSpinnerGrosor;
-    protected javax.swing.JToggleButton jToggleButtonAlisado;
-    private javax.swing.JToggleButton jToggleButtonArco;
+    protected javax.swing.JToggleButton jToggleButtonArco;
     protected javax.swing.JToggleButton jToggleButtonEditar;
     protected javax.swing.JToggleButton jToggleButtonLapiz;
     protected javax.swing.JToggleButton jToggleButtonLinea;
     protected javax.swing.JToggleButton jToggleButtonOvalo;
     protected javax.swing.JToggleButton jToggleButtonRectangulo;
-    protected javax.swing.JToggleButton jToggleButtonRelleno;
-    private javax.swing.JToggleButton jToggleButtonRoundRectangle;
-    protected javax.swing.JToggleButton jToggleButtonTransparencia;
+    protected javax.swing.JToggleButton jToggleButtonRoundRectangle;
     private javax.swing.JToolBar jToolBarEdicion;
     private javax.swing.JToolBar jToolBarHerramientas;
     // End of variables declaration//GEN-END:variables

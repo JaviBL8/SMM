@@ -7,6 +7,9 @@
 //Hay que quitar el lienzo2d y poner un panel scroll para que cuando la imagen sea grande aparezcan las barras de scroll
 package practica7;
 
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import sm.jbl.graficos.Figura;
 import sm.jbl.herramientas.Herramientas;
 import sm.jbl.iu.LienzoImagen2D;
 
@@ -118,22 +121,20 @@ public class VentanaInterna extends javax.swing.JInternalFrame {
                 parentPrincipal.jToggleButtonOvalo.setSelected(true);
                 parentPrincipal.jLabelEstado.setText("Círculo");
                 break;
+            case RECTANGULO_REDONDEADO:                
+                parentPrincipal.jToggleButtonRoundRectangle.setSelected(true);
+                parentPrincipal.jLabelEstado.setText("Rectángulo redondeado");
+                break;
+            case ARCO:                
+                parentPrincipal.jToggleButtonArco.setSelected(true);
+                parentPrincipal.jLabelEstado.setText("Rectángulo redondeado");
+                break;
         }    
         parentPrincipal.buttonGroupOpciones.clearSelection();
-       
-        //Botones propiedades
-        if(lienzoImagen2D.getEditar()){
-            parentPrincipal.jToggleButtonEditar.setSelected(true);
-            if(lienzoImagen2D.getRellenar()){
-                parentPrincipal.jToggleButtonRelleno.setSelected(true);
-            }
-            if(lienzoImagen2D.getAlisar()){
-                parentPrincipal.jToggleButtonAlisado.setSelected(true);
-            }
-            if(lienzoImagen2D.getTransparentar()){
-                parentPrincipal.jToggleButtonTransparencia.setSelected(true);
-            }
-        }
+
+        //Cargar modelo figuras
+        parentPrincipal.jComboBoxFiguras.setModel(new DefaultComboBoxModel());
+        cargaModeloFiguras();
         
         //Colores
         parentPrincipal.jComboBoxColores.setSelectedIndex(indiceColores);
@@ -149,4 +150,11 @@ public class VentanaInterna extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane;
     private sm.jbl.iu.LienzoImagen2D lienzoImagen2D;
     // End of variables declaration//GEN-END:variables
+
+    private void cargaModeloFiguras() {
+        List<Figura>listaFiguras = this.lienzoImagen2D.getListaFiguras();
+        for(Figura f : listaFiguras){
+            ((DefaultComboBoxModel)parentPrincipal.jComboBoxFiguras.getModel()).addElement(f);
+        }
+    }
 }

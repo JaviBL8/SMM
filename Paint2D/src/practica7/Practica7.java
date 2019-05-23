@@ -46,11 +46,7 @@ public class Practica7 {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                try {
-                    new VentanaPrincipal().setVisible(true);
-                } catch (PropertyVetoException ex) {
-                    Logger.getLogger(Practica7.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                new VentanaPrincipal().setVisible(true);
                 
             }
         });
