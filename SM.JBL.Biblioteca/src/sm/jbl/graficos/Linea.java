@@ -23,7 +23,7 @@ public class Linea extends Line2D.Double implements Figura{
     
     Propiedades p;
     private AlphaComposite comp;
-    private RenderingHints rend;    
+    private RenderingHints rend;   
     
     @Override
     public Color getColor(){
@@ -113,4 +113,14 @@ public class Linea extends Line2D.Double implements Figura{
         //Lo mismo para el resto
         g2d.draw(this);
     }
+    
+    @Override
+    public String toString(){    
+        if(this.getP1().equals(this.getP2())){
+            return "Punto";
+        }else{
+            return "Línea";
+        }                
+    }
+    
 }

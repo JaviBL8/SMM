@@ -18,6 +18,8 @@ import static java.lang.Math.min;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ImageIcon;
+import sm.jbl.eventos.LienzoEvent;
+import sm.jbl.eventos.LienzoListener;
 import sm.jbl.herramientas.Herramientas;
 import static sm.jbl.herramientas.Herramientas.*;
 import sm.jbl.graficos.*;
@@ -45,6 +47,9 @@ public class Lienzo2D extends javax.swing.JPanel {
     private Cursor cursor;
     private boolean alisar;
     private boolean transparentar;
+    ArrayList<LienzoListener> lienzoEventListeners = new ArrayList();
+    
+    
     /**
      * Creates new form Lienzo2D
      */
@@ -59,6 +64,10 @@ public class Lienzo2D extends javax.swing.JPanel {
         return editar;
     }
     
+    public void setFigura(Figura f){
+        this.figura = f;
+    }
+    
     public void setEditar(boolean editar){
         this.editar=editar;
         this.rellenar=false;
@@ -67,9 +76,9 @@ public class Lienzo2D extends javax.swing.JPanel {
     }
     
     public void setRellenar(boolean rellenar) {
-        this.rellenar=rellenar;
-        this.alisar=false;
-        this.transparentar=false;
+        figura.setRelleno(true);
+        figura.setColor(color);
+        repaint();
     }
     
     public boolean getRellenar(){
@@ -77,9 +86,7 @@ public class Lienzo2D extends javax.swing.JPanel {
     }
     
     public void setTransparentar(boolean transparentar) {
-        this.transparentar=transparentar;
-        this.rellenar=false;
-        this.alisar=false;
+        figura.setTransparente(true);
     }
     
     public boolean getTransparentar(){
@@ -91,9 +98,7 @@ public class Lienzo2D extends javax.swing.JPanel {
     }
     
     public void setAlisar(boolean alisar) {
-        this.alisar=alisar;
-        this.rellenar=false;
-        this.transparentar=false;
+        figura.setAlisado(true);
     }
     
     
@@ -101,6 +106,7 @@ public class Lienzo2D extends javax.swing.JPanel {
         if(c!=null){
             this.color=c;
             if(figura!=null && editar) figura.setColor(color);
+            repaint();
         }        
     }
     
@@ -169,21 +175,7 @@ public class Lienzo2D extends javax.swing.JPanel {
        
         if(editar){
             figura = (Figura) getSelectedShape(punto2);
-            if(figura!=null){
-                if(rellenar){
-                    figura.setRelleno(true);
-                    figura.setColor(color);
-                }
-                else if(alisar){
-                    figura.setAlisado(true);
-                }
-                else if(transparentar){
-                    figura.setTransparente(true);
-                }
-                else{
-                    setPosicion((Shape) figura);
-                }
-            }         
+            setPosicion((Shape) figura);  
         }
         else{
             updateShape();   
@@ -196,6 +188,7 @@ public class Lienzo2D extends javax.swing.JPanel {
     }//GEN-LAST:event_formMouseReleased
 
     private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
+        
         if(rellenar){
             cursor=tk.createCustomCursor(imgRelleno.getImage(), new Point(1,1), "Cursor");
             this.setCursor(cursor);
@@ -272,14 +265,11 @@ public class Lienzo2D extends javax.swing.JPanel {
             ((Arco)figura).setFrame(punto2.getX()+offSet.getX(),punto2.getY()+offSet.getY(),
                     ((Arco) figura).getWidth(), ((Arco) figura).getHeight());
         }
-        else if(figura instanceof Curva1){
-            ((Curva1)figura).setCurve(punto2.getX()+offSet.getX(),punto2.getY()+offSet.getY(),punto1.getX(),punto1.getY(),
-                    ((Curva1) figura).getX2(), ((Curva1) figura).getY2());
-        }
         
     }
     
     public void createShape(){
+        //Nueva figura
         figura=null;
         switch(herramienta){
             case LAPIZ:
@@ -302,13 +292,12 @@ public class Lienzo2D extends javax.swing.JPanel {
                 figura = new Arco(min(punto1.getX(),punto2.getX()),min(punto1.getY(),punto2.getY()),
                         Math.abs(punto2.getX()-punto1.getX()),Math.abs(punto2.getY()-punto1.getY()));
                 break;
-            case CURVA1:
-                figura = new Curva1(min(punto1.getX(),punto2.getX()),min(punto1.getY(),punto2.getY()),
-                        Math.abs(punto2.getX()-punto1.getX()),Math.abs(punto2.getY()-punto1.getY()),punto1.getX(),punto1.getY());
-                break;
+        
+            //Añadir figura al combobox    
         }  
         figura.setColor(color);
         vShape.add(figura);
+        notifyShapeAddedEvent( new LienzoEvent(this,(Shape)figura));
     }
     
     public void updateShape(){
@@ -329,9 +318,6 @@ public class Lienzo2D extends javax.swing.JPanel {
             case ARCO:
                 ((Arc2D) vShape.get(vShape.size()-1)).setFrameFromDiagonal(punto1, punto2);
                 break;
-            case CURVA1:
-                ((Curva1) vShape.get(vShape.size()-1)).setCurve(punto1, punto2, punto1);
-                break;
         }
     }
     
@@ -345,6 +331,31 @@ public class Lienzo2D extends javax.swing.JPanel {
     
     public Herramientas getHerramienta(){
         return herramienta;
+    }
+    
+    public List<Figura> getListaFiguras(){
+        return this.vShape;
+    }
+    
+    public void addLienzoListener(LienzoListener listener){
+        if (listener != null) {
+            lienzoEventListeners.add(listener);
+        }
+    }
+    
+    private void notifyShapeAddedEvent(LienzoEvent evt) {
+        if (!lienzoEventListeners.isEmpty()) {
+            for (LienzoListener listener : lienzoEventListeners) {
+                listener.shapeAdded(evt);
+            }
+        }
+    }
+    private void notifyPropertyChangeEvent(LienzoEvent evt) {
+        if (!lienzoEventListeners.isEmpty()) {
+            for (LienzoListener listener : lienzoEventListeners) {
+                listener.propertyChange(evt);
+            }
+        }
     }
     
     

@@ -7,7 +7,6 @@
 //Hay que quitar el lienzo2d y poner un panel scroll para que cuando la imagen sea grande aparezcan las barras de scroll
 package practica7;
 
-import javafx.scene.paint.Color;
 import sm.jbl.herramientas.Herramientas;
 import sm.jbl.iu.LienzoImagen2D;
 
@@ -81,11 +80,11 @@ public class VentanaInterna extends javax.swing.JInternalFrame {
         lienzoImagen2D.setLayout(lienzoImagen2DLayout);
         lienzoImagen2DLayout.setHorizontalGroup(
             lienzoImagen2DLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 729, Short.MAX_VALUE)
+            .addGap(0, 699, Short.MAX_VALUE)
         );
         lienzoImagen2DLayout.setVerticalGroup(
             lienzoImagen2DLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1272, Short.MAX_VALUE)
+            .addGap(0, 493, Short.MAX_VALUE)
         );
 
         jScrollPane.setViewportView(lienzoImagen2D);

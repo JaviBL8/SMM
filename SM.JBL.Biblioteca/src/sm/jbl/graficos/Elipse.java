@@ -96,4 +96,9 @@ public class Elipse extends Ellipse2D.Double implements Figura{
         //Lo mismo para el resto
         g2d.draw(this);
     }
+    
+    @Override
+    public String toString(){
+        return "Elipse";
+    }
 }

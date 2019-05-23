@@ -3,17 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sm.jbl.herramientas;
+package sm.jbl.eventos;
 
 /**
  *
  * @author JaviBl8
  */
-public enum Herramientas {
-    LAPIZ,
-    LINEA,
-    CIRCULO,
-    RECTANGULO,
-    RECTANGULO_REDONDEADO,
-    ARCO
+public class LienzoAdapter implements LienzoListener{
+    @Override
+    public void shapeAdded(LienzoEvent evt){}
+    @Override
+    public void propertyChange(LienzoEvent evt){}
 }

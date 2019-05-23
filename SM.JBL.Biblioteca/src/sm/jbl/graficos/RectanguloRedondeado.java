@@ -98,6 +98,11 @@ public class RectanguloRedondeado extends RoundRectangle2D.Double implements Fig
         if(getRelleno())    g2d.fill(this);
         //Lo mismo para el resto
         g2d.draw(this);
-        
     }
+
+    @Override
+    public String toString(){
+        return "Rectángulo redondeado";
+    }
+
 }

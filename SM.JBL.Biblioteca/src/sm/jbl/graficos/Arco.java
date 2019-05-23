@@ -100,4 +100,9 @@ public class Arco extends Arc2D.Double implements Figura{
         g2d.draw(this);
     }
     
+    @Override
+    public String toString(){
+        return "Arco";
+    }
+    
 }

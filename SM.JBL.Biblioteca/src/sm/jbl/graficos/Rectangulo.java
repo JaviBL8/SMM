@@ -93,7 +93,11 @@ public class Rectangulo extends Rectangle implements Figura{
         if(getRelleno())    g2d.fill(this);
         //Lo mismo para el resto
         g2d.draw(this);
-        
+    }
+    
+    @Override
+    public String toString(){
+        return "Rectángulo";
     }
     
     
