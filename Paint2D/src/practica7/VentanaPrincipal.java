@@ -34,6 +34,8 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.LineListener;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -52,7 +54,10 @@ import sm.jbl.eventos.LienzoEvent;
 import sm.jbl.eventos.MiManejadorLienzo;
 import sm.jbl.graficos.Figura;
 import sm.jbl.image.SepiaOp;
-import sm.jbl.iu.ColorChooserButton;
+import sm.sound.SMClipPlayer;
+import sm.sound.SMPlayer;
+import sm.sound.SMRecorder;
+import sm.sound.SMSoundPlayerRecorder;
 /**
  *
  * @author JaviBl8
@@ -62,6 +67,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     java.awt.Color[] colores = { java.awt.Color.BLACK, java.awt.Color.RED, java.awt.Color.BLUE, java.awt.Color.WHITE, java.awt.Color.YELLOW, java.awt.Color.GREEN };
     private BufferedImage imgSource, imgAux;
     private VentanaInterna vi;
+    private SMPlayer player = null;
+    private SMRecorder recorder = null;
+    private boolean grabando;
     
     /**
      * Creates new form VentanaPrincipal
@@ -81,6 +89,20 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             System.out.println("Figura "+evt.getForma()+" añadida");
         }
     }    
+    
+    class ManejadorAudio implements LineListener {
+        @Override
+        public void update(LineEvent event) {
+            if (event.getType() == LineEvent.Type.START) {
+                jButtonPlay.setEnabled (false);
+            }
+            if (event.getType() == LineEvent.Type.STOP) {
+                jButtonPlay.setEnabled (true);
+            }
+            if (event.getType() == LineEvent.Type.CLOSE) {
+            }
+        }
+   }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -114,6 +136,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jButtonRelleno = new javax.swing.JButton();
         jButtonTransparencia = new javax.swing.JButton();
         jButtonAlisado = new javax.swing.JButton();
+        jSeparator6 = new javax.swing.JToolBar.Separator();
+        jButtonPlay = new javax.swing.JButton();
+        jButtonStop = new javax.swing.JButton();
+        jComboBoxAudios = new javax.swing.JComboBox<>();
+        jButtonGrabar = new javax.swing.JButton();
         jPanelCentral = new javax.swing.JPanel();
         escritorio = new javax.swing.JDesktopPane();
         jPanelEstado = new javax.swing.JPanel();
@@ -123,7 +150,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jToolBarEdicion = new javax.swing.JToolBar();
         jPanelSeparador1 = new javax.swing.JPanel();
         jPanelBrillo = new javax.swing.JPanel();
-        jLabelBrillo = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         jSliderBrillo = new javax.swing.JSlider();
         jPanelSeparador2 = new javax.swing.JPanel();
         jPanelFiltro = new javax.swing.JPanel();
@@ -172,6 +199,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador9 = new javax.swing.JPanel();
         jMenuBar = new javax.swing.JMenuBar();
         jMenuArchivo = new javax.swing.JMenu();
+        jMenuItemGuardarAudio = new javax.swing.JMenuItem();
+        jMenuItemAbrirAudio = new javax.swing.JMenuItem();
         jMenuEdicion = new javax.swing.JMenu();
         jMenuImagen = new javax.swing.JMenu();
         jCheckBoxMenuItemRescaleOp = new javax.swing.JCheckBoxMenuItem();
@@ -364,6 +393,56 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jButtonAlisado.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButtonAlisado.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToolBarHerramientas.add(jButtonAlisado);
+        jToolBarHerramientas.add(jSeparator6);
+
+        jButtonPlay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/play24x24.png"))); // NOI18N
+        jButtonPlay.setFocusable(false);
+        jButtonPlay.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButtonPlay.setMaximumSize(new java.awt.Dimension(36, 39));
+        jButtonPlay.setMinimumSize(new java.awt.Dimension(36, 39));
+        jButtonPlay.setPreferredSize(new java.awt.Dimension(36, 39));
+        jButtonPlay.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButtonPlay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPlayActionPerformed(evt);
+            }
+        });
+        jToolBarHerramientas.add(jButtonPlay);
+
+        jButtonStop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/pausa24x24.png"))); // NOI18N
+        jButtonStop.setFocusable(false);
+        jButtonStop.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButtonStop.setMaximumSize(new java.awt.Dimension(36, 39));
+        jButtonStop.setMinimumSize(new java.awt.Dimension(36, 39));
+        jButtonStop.setPreferredSize(new java.awt.Dimension(36, 39));
+        jButtonStop.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButtonStop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonStopActionPerformed(evt);
+            }
+        });
+        jToolBarHerramientas.add(jButtonStop);
+
+        jComboBoxAudios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxAudiosActionPerformed(evt);
+            }
+        });
+        jToolBarHerramientas.add(jComboBoxAudios);
+
+        jButtonGrabar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/record24x24.png"))); // NOI18N
+        jButtonGrabar.setFocusable(false);
+        jButtonGrabar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButtonGrabar.setMaximumSize(new java.awt.Dimension(36, 39));
+        jButtonGrabar.setMinimumSize(new java.awt.Dimension(36, 39));
+        jButtonGrabar.setPreferredSize(new java.awt.Dimension(36, 39));
+        jButtonGrabar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButtonGrabar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGrabarActionPerformed(evt);
+            }
+        });
+        jToolBarHerramientas.add(jButtonGrabar);
 
         getContentPane().add(jToolBarHerramientas, java.awt.BorderLayout.PAGE_START);
 
@@ -373,7 +452,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         escritorio.setLayout(escritorioLayout);
         escritorioLayout.setHorizontalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1301, Short.MAX_VALUE)
+            .addGap(0, 794, Short.MAX_VALUE)
         );
         escritorioLayout.setVerticalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -406,7 +485,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador1.setLayout(jPanelSeparador1Layout);
         jPanelSeparador1Layout.setHorizontalGroup(
             jPanelSeparador1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 23, Short.MAX_VALUE)
+            .addGap(0, 4, Short.MAX_VALUE)
         );
         jPanelSeparador1Layout.setVerticalGroup(
             jPanelSeparador1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -419,16 +498,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelBrillo.setPreferredSize(new java.awt.Dimension(300, 100));
         jPanelBrillo.setLayout(new java.awt.GridLayout(0, 1));
 
-        jLabelBrillo.setText("Brillo");
-        jLabelBrillo.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        jLabelBrillo.setMaximumSize(new java.awt.Dimension(35, 20));
-        jLabelBrillo.setMinimumSize(new java.awt.Dimension(25, 10));
-        jLabelBrillo.setPreferredSize(new java.awt.Dimension(30, 15));
-        jLabelBrillo.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
-        jPanelBrillo.add(jLabelBrillo);
+        jLabel2.setText("Brillo");
+        jLabel2.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jPanelBrillo.add(jLabel2);
 
         jSliderBrillo.setMaximum(255);
         jSliderBrillo.setMinimum(-255);
+        jSliderBrillo.setPaintLabels(true);
+        jSliderBrillo.setPaintTicks(true);
         jSliderBrillo.setValue(0);
         jSliderBrillo.setPreferredSize(new java.awt.Dimension(80, 16));
         jSliderBrillo.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -455,7 +532,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador2.setLayout(jPanelSeparador2Layout);
         jPanelSeparador2Layout.setHorizontalGroup(
             jPanelSeparador2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 23, Short.MAX_VALUE)
+            .addGap(0, 4, Short.MAX_VALUE)
         );
         jPanelSeparador2Layout.setVerticalGroup(
             jPanelSeparador2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -501,7 +578,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador3.setLayout(jPanelSeparador3Layout);
         jPanelSeparador3Layout.setHorizontalGroup(
             jPanelSeparador3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 23, Short.MAX_VALUE)
+            .addGap(0, 4, Short.MAX_VALUE)
         );
         jPanelSeparador3Layout.setVerticalGroup(
             jPanelSeparador3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -556,7 +633,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador4.setLayout(jPanelSeparador4Layout);
         jPanelSeparador4Layout.setHorizontalGroup(
             jPanelSeparador4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 23, Short.MAX_VALUE)
+            .addGap(0, 4, Short.MAX_VALUE)
         );
         jPanelSeparador4Layout.setVerticalGroup(
             jPanelSeparador4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -619,7 +696,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador5.setLayout(jPanelSeparador5Layout);
         jPanelSeparador5Layout.setHorizontalGroup(
             jPanelSeparador5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 23, Short.MAX_VALUE)
+            .addGap(0, 4, Short.MAX_VALUE)
         );
         jPanelSeparador5Layout.setVerticalGroup(
             jPanelSeparador5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -665,7 +742,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador6.setLayout(jPanelSeparador6Layout);
         jPanelSeparador6Layout.setHorizontalGroup(
             jPanelSeparador6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 23, Short.MAX_VALUE)
+            .addGap(0, 4, Short.MAX_VALUE)
         );
         jPanelSeparador6Layout.setVerticalGroup(
             jPanelSeparador6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -745,7 +822,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador7.setLayout(jPanelSeparador7Layout);
         jPanelSeparador7Layout.setHorizontalGroup(
             jPanelSeparador7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 23, Short.MAX_VALUE)
+            .addGap(0, 4, Short.MAX_VALUE)
         );
         jPanelSeparador7Layout.setVerticalGroup(
             jPanelSeparador7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -792,7 +869,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador8.setLayout(jPanelSeparador8Layout);
         jPanelSeparador8Layout.setHorizontalGroup(
             jPanelSeparador8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 23, Short.MAX_VALUE)
+            .addGap(0, 4, Short.MAX_VALUE)
         );
         jPanelSeparador8Layout.setVerticalGroup(
             jPanelSeparador8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -836,7 +913,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador9.setLayout(jPanelSeparador9Layout);
         jPanelSeparador9Layout.setHorizontalGroup(
             jPanelSeparador9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 94, Short.MAX_VALUE)
+            .addGap(0, 19, Short.MAX_VALUE)
         );
         jPanelSeparador9Layout.setVerticalGroup(
             jPanelSeparador9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -850,6 +927,18 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         getContentPane().add(jPanelEstado, java.awt.BorderLayout.PAGE_END);
 
         jMenuArchivo.setText("Archivo");
+
+        jMenuItemGuardarAudio.setText("Guardar audio");
+        jMenuArchivo.add(jMenuItemGuardarAudio);
+
+        jMenuItemAbrirAudio.setText("Abrir audio");
+        jMenuItemAbrirAudio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemAbrirAudioActionPerformed(evt);
+            }
+        });
+        jMenuArchivo.add(jMenuItemAbrirAudio);
+
         jMenuBar.add(jMenuArchivo);
 
         jMenuEdicion.setText("Edición");
@@ -944,6 +1033,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private void jButtonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNuevoActionPerformed
         VentanaInterna vi = new VentanaInterna(this);
+        Nuevo nu = new Nuevo(this,true);
+        //escritorio.add(nu);
+        nu.setVisible(true);
+        
         escritorio.add(vi);
         try {
             vi.setSelected(true);
@@ -1664,6 +1757,67 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             vi.getLienzo().setTransparentar(true);
         }
     }//GEN-LAST:event_jButtonTransparenciaActionPerformed
+
+    private void jMenuItemAbrirAudioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAbrirAudioActionPerformed
+        JFileChooser dlg = new JFileChooser();
+        dlg.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        dlg.setAcceptAllFileFilterUsed(true);
+        int resp = dlg.showOpenDialog(this);
+        if( resp == JFileChooser.APPROVE_OPTION) {
+            File f = dlg.getSelectedFile(); 
+            jComboBoxAudios.addItem(f);
+        }
+    }//GEN-LAST:event_jMenuItemAbrirAudioActionPerformed
+
+    private void jComboBoxAudiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxAudiosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxAudiosActionPerformed
+
+    private void jButtonPlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPlayActionPerformed
+        File f = (File)jComboBoxAudios.getSelectedItem();
+        if(f!=null){
+            player = new SMClipPlayer(f);
+            ((SMClipPlayer)player).addLineListener(new ManejadorAudio());
+            if (player != null) {
+            player.play();
+            }
+        }
+    }//GEN-LAST:event_jButtonPlayActionPerformed
+
+    private void jButtonStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStopActionPerformed
+
+        if (player != null) {
+            player.stop();
+        }
+    }//GEN-LAST:event_jButtonStopActionPerformed
+
+    private void jButtonGrabarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGrabarActionPerformed
+        
+        if(grabando==true){
+            recorder.stop();
+            this.jButtonGrabar.setSelected(false);
+            grabando=false;
+        }else{        
+            grabando=true;
+            this.jButtonGrabar.setSelected(true);
+            JFileChooser dlg = new JFileChooser();
+            dlg.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            dlg.setAcceptAllFileFilterUsed(true);
+            dlg.setSelectedFile(new File("prueba.wav"));
+            int resp = dlg.showSaveDialog(this);
+            if( resp == JFileChooser.APPROVE_OPTION) {
+                File f = dlg.getSelectedFile();
+                if(f!=null){
+                    jComboBoxAudios.addItem(f);
+                    recorder = new SMSoundPlayerRecorder(f);
+                    ((SMSoundPlayerRecorder)recorder).addLineListener(new ManejadorAudio());
+                    if (recorder != null) {
+                        recorder.record();
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_jButtonGrabarActionPerformed
     
     public LookupTable lookUpPersonalizado(double n){
         double K = 255.0D / Math.pow(255.0D, n);
@@ -1702,10 +1856,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jButtonColor;
     private javax.swing.JButton jButtonDisminuirEscala;
     private javax.swing.JButton jButtonEcualizacion;
+    private javax.swing.JButton jButtonGrabar;
     private javax.swing.JButton jButtonGuardar;
     private javax.swing.JButton jButtonNormal;
     private javax.swing.JButton jButtonNuevo;
     private javax.swing.JButton jButtonOscuridad;
+    private javax.swing.JButton jButtonPlay;
     private javax.swing.JButton jButtonRelleno;
     private javax.swing.JButton jButtonRotacion180;
     private javax.swing.JButton jButtonRotacion270;
@@ -1713,16 +1869,18 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jButtonSeno;
     private javax.swing.JButton jButtonSepia;
     private javax.swing.JButton jButtonSobreExpuesta;
+    private javax.swing.JButton jButtonStop;
     private javax.swing.JButton jButtonTintado;
     private javax.swing.JButton jButtonTransparencia;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItemConvolve;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItemRescaleOp;
+    private javax.swing.JComboBox<File> jComboBoxAudios;
     protected javax.swing.JComboBox jComboBoxColores;
     private javax.swing.JComboBox<String> jComboBoxEspacioColor;
     protected javax.swing.JComboBox<Figura> jComboBoxFiguras;
     private javax.swing.JComboBox<String> jComboBoxFiltros;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabelBrillo;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabelColor;
     private javax.swing.JLabel jLabelEscala;
     protected javax.swing.JLabel jLabelEstado;
@@ -1737,7 +1895,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuEdicion;
     private javax.swing.JMenu jMenuImagen;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItemAbrirAudio;
     private javax.swing.JMenuItem jMenuItemDuplicar;
+    private javax.swing.JMenuItem jMenuItemGuardarAudio;
     private javax.swing.JMenuItem jMenuItemNegativo;
     private javax.swing.JPanel jPanelBotonesColor;
     private javax.swing.JPanel jPanelBotonesContraste;
@@ -1768,6 +1928,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JToolBar.Separator jSeparator3;
     private javax.swing.JToolBar.Separator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
+    private javax.swing.JToolBar.Separator jSeparator6;
     private javax.swing.JSlider jSliderBrillo;
     private javax.swing.JSlider jSliderRotacion;
     private javax.swing.JSlider jSliderUmbralizacion;
