@@ -7,6 +7,7 @@ package practica7;
 
 
 import java.awt.Color;
+import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -38,11 +39,13 @@ import javax.activation.MimetypesFileTypeMap;
 import javax.imageio.ImageIO;
 import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineListener;
+import javax.swing.Box;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -59,6 +62,7 @@ import sm.jbl.image.SepiaOp;
 import sm.sound.SMClipPlayer;
 import sm.sound.SMPlayer;
 import sm.sound.SMRecorder;
+import sm.sound.SMSoundPlayer;
 import sm.sound.SMSoundPlayerRecorder;
 /**
  *
@@ -201,8 +205,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador9 = new javax.swing.JPanel();
         jMenuBar = new javax.swing.JMenuBar();
         jMenuArchivo = new javax.swing.JMenu();
-        jMenuItemGuardarAudio = new javax.swing.JMenuItem();
+        jMenuItemNuevo = new javax.swing.JMenuItem();
+        jMenuItemAbrir = new javax.swing.JMenuItem();
+        jMenuItemGuardar = new javax.swing.JMenuItem();
         jMenuItemAbrirAudio = new javax.swing.JMenuItem();
+        jMenuItemGuardarAudio = new javax.swing.JMenuItem();
         jMenuEdicion = new javax.swing.JMenu();
         jMenuImagen = new javax.swing.JMenu();
         jCheckBoxMenuItemRescaleOp = new javax.swing.JCheckBoxMenuItem();
@@ -210,6 +217,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jMenuItemNegativo = new javax.swing.JMenuItem();
         jMenuItemDuplicar = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuVer = new javax.swing.JMenu();
+        jCheckBoxMenuItemSuperior = new javax.swing.JCheckBoxMenuItem();
+        jMenuAyuda = new javax.swing.JMenu();
+        jCheckBoxMenuItemAcerca = new javax.swing.JCheckBoxMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -929,8 +940,31 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jMenuArchivo.setText("Archivo");
 
-        jMenuItemGuardarAudio.setText("Guardar audio");
-        jMenuArchivo.add(jMenuItemGuardarAudio);
+        jMenuItemNuevo.setText("Nuevo");
+        jMenuItemNuevo.setToolTipText("Nuevo");
+        jMenuItemNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemNuevoActionPerformed(evt);
+            }
+        });
+        jMenuArchivo.add(jMenuItemNuevo);
+
+        jMenuItemAbrir.setText("Abrir");
+        jMenuItemAbrir.setToolTipText("abrir");
+        jMenuItemAbrir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemAbrirActionPerformed(evt);
+            }
+        });
+        jMenuArchivo.add(jMenuItemAbrir);
+
+        jMenuItemGuardar.setText("Guardar");
+        jMenuItemGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemGuardarActionPerformed(evt);
+            }
+        });
+        jMenuArchivo.add(jMenuItemGuardar);
 
         jMenuItemAbrirAudio.setText("Abrir audio");
         jMenuItemAbrirAudio.addActionListener(new java.awt.event.ActionListener() {
@@ -939,6 +973,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
         jMenuArchivo.add(jMenuItemAbrirAudio);
+
+        jMenuItemGuardarAudio.setText("Guardar audio");
+        jMenuArchivo.add(jMenuItemGuardarAudio);
 
         jMenuBar.add(jMenuArchivo);
 
@@ -989,6 +1026,32 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jMenuBar.add(jMenuImagen);
 
+        jMenuVer.setText("Ver");
+
+        jCheckBoxMenuItemSuperior.setSelected(true);
+        jCheckBoxMenuItemSuperior.setText("Barra superior");
+        jCheckBoxMenuItemSuperior.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxMenuItemSuperiorActionPerformed(evt);
+            }
+        });
+        jMenuVer.add(jCheckBoxMenuItemSuperior);
+
+        jMenuBar.add(jMenuVer);
+
+        jMenuAyuda.setText("Ayuda");
+
+        jCheckBoxMenuItemAcerca.setSelected(true);
+        jCheckBoxMenuItemAcerca.setText("Acerca de");
+        jCheckBoxMenuItemAcerca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxMenuItemAcercaActionPerformed(evt);
+            }
+        });
+        jMenuAyuda.add(jCheckBoxMenuItemAcerca);
+
+        jMenuBar.add(jMenuAyuda);
+
         setJMenuBar(jMenuBar);
 
         pack();
@@ -1034,7 +1097,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private void jButtonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNuevoActionPerformed
         //Ventana para tamaño lienzo
-        Nuevo nu = new Nuevo(this,true);
+        TamanoLienzo nu = new TamanoLienzo(this,true);
         nu.setVisible(true);   
         int alto=300;
         int ancho=300;
@@ -1072,9 +1135,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         dlg.addChoosableFileFilter(new FileNameExtensionFilter("PNG","PNG"));
         dlg.addChoosableFileFilter(new FileNameExtensionFilter("GIF","gif"));
         //Formatos de audio
-        dlg.addChoosableFileFilter(new FileNameExtensionFilter("WAV","wav"));
-        dlg.addChoosableFileFilter(new FileNameExtensionFilter("MP3","mp3"));
-        dlg.addChoosableFileFilter(new FileNameExtensionFilter("OGG","ogg"));
+        dlg.addChoosableFileFilter(new FileNameExtensionFilter("WAV","WAV"));
+        dlg.addChoosableFileFilter(new FileNameExtensionFilter("AU","au"));
         
         dlg.setAcceptAllFileFilterUsed(true);
         int resp = dlg.showOpenDialog(this);
@@ -1084,8 +1146,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 
                 String mimetype= new MimetypesFileTypeMap().getContentType(f);
                 String type = mimetype.split("/")[0];
-                
-                if(type.equals("image")){
+                //El segundo mimetype es para png
+                if(type.equals("image") || mimetype.equals("application/octet-stream")){
+                    System.out.println("Es png");
                     BufferedImage img = ImageIO.read(f);
                     VentanaInterna vi2 = new VentanaInterna(this);
                     //Redimensionado de la ventana  
@@ -1121,6 +1184,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             JFileChooser dlg = new JFileChooser();
             FileFilter jpg = new FileNameExtensionFilter("JPG", "jpg", "jpeg");
             FileFilter png = new FileNameExtensionFilter("PNG", "png");
+            FileFilter gif = new FileNameExtensionFilter("GIF", "gif");
             System.out.println("Extension para guardar: " + vi.getLienzo().getExtension());
            
             if(vi.getLienzo().getImage().getType()!=BufferedImage.TYPE_INT_ARGB){
@@ -1140,12 +1204,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                             ImageIO.write(img, "jpg", f);
                         } else if (dlg.getFileFilter().equals(png)) {
                             ImageIO.write(img, "png", f);
-                        }
+                        } else if (dlg.getFileFilter().equals(gif)) {
+                            ImageIO.write(img, "gif", f);
+                        }                        
                         else{
                             ImageIO.write(img, "jpg", f);
                         }
-                        
-                        vi.setTitle(f.getName());
+                            vi.setTitle(f.getName());
                     }
                 }catch (Exception ex) {
                     JOptionPane.showMessageDialog(this,"Error al guardar la imagen", "error", JOptionPane.ERROR_MESSAGE);
@@ -1804,9 +1869,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         File f = (File)jComboBoxAudios.getSelectedItem();
         if(f!=null){
             player = new SMClipPlayer(f);
-            ((SMClipPlayer)player).addLineListener(new ManejadorAudio());
+            //((SMClipPlayer)player).addLineListener(new ManejadorAudio());
             if (player != null) {
-            player.play();
+                player.play();
             }
         }
     }//GEN-LAST:event_jButtonPlayActionPerformed
@@ -1845,6 +1910,27 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jButtonGrabarActionPerformed
+
+    private void jMenuItemNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemNuevoActionPerformed
+        this.jButtonNuevoActionPerformed(evt);
+    }//GEN-LAST:event_jMenuItemNuevoActionPerformed
+
+    private void jMenuItemAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAbrirActionPerformed
+        this.jButtonAbrirActionPerformed(evt);
+    }//GEN-LAST:event_jMenuItemAbrirActionPerformed
+
+    private void jMenuItemGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemGuardarActionPerformed
+        this.jButtonGuardarActionPerformed(evt);
+    }//GEN-LAST:event_jMenuItemGuardarActionPerformed
+
+    private void jCheckBoxMenuItemSuperiorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItemSuperiorActionPerformed
+        this.jToolBarHerramientas.setVisible(this.jCheckBoxMenuItemSuperior.isSelected());
+    }//GEN-LAST:event_jCheckBoxMenuItemSuperiorActionPerformed
+
+    private void jCheckBoxMenuItemAcercaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItemAcercaActionPerformed
+        
+
+    }//GEN-LAST:event_jCheckBoxMenuItemAcercaActionPerformed
     
     public LookupTable lookUpPersonalizado(double n){
         double K = 255.0D / Math.pow(255.0D, n);
@@ -1899,8 +1985,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jButtonStop;
     private javax.swing.JButton jButtonTintado;
     private javax.swing.JButton jButtonTransparencia;
+    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItemAcerca;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItemConvolve;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItemRescaleOp;
+    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItemSuperior;
     private javax.swing.JComboBox<File> jComboBoxAudios;
     protected javax.swing.JComboBox jComboBoxColores;
     private javax.swing.JComboBox<String> jComboBoxEspacioColor;
@@ -1918,14 +2006,19 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelRotacion;
     private javax.swing.JLabel jLabelUmbralizacion;
     private javax.swing.JMenu jMenuArchivo;
+    private javax.swing.JMenu jMenuAyuda;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenu jMenuEdicion;
     private javax.swing.JMenu jMenuImagen;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItemAbrir;
     private javax.swing.JMenuItem jMenuItemAbrirAudio;
     private javax.swing.JMenuItem jMenuItemDuplicar;
+    private javax.swing.JMenuItem jMenuItemGuardar;
     private javax.swing.JMenuItem jMenuItemGuardarAudio;
     private javax.swing.JMenuItem jMenuItemNegativo;
+    private javax.swing.JMenuItem jMenuItemNuevo;
+    private javax.swing.JMenu jMenuVer;
     private javax.swing.JPanel jPanelBotonesColor;
     private javax.swing.JPanel jPanelBotonesContraste;
     private javax.swing.JPanel jPanelBotonesEscala;

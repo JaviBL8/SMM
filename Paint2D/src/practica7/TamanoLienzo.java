@@ -9,14 +9,14 @@ package practica7;
  *
  * @author JaviBl8
  */
-public class Nuevo extends javax.swing.JDialog {
+public class TamanoLienzo extends javax.swing.JDialog {
     
     Boolean enviar=false;
     double ancho, alto;
     /**
      * Creates new form Nuevo
      */
-    public Nuevo(java.awt.Frame parent, boolean modal) {
+    public TamanoLienzo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
