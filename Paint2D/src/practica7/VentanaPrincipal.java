@@ -7,6 +7,7 @@ package practica7;
 
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Transparency;
@@ -1032,23 +1033,25 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jToggleButtonOvaloActionPerformed
 
     private void jButtonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNuevoActionPerformed
-        VentanaInterna vi = new VentanaInterna(this);
+        //Ventana para tamaño lienzo
         Nuevo nu = new Nuevo(this,true);
-        //escritorio.add(nu);
-        nu.setVisible(true);
-        
+        nu.setVisible(true);   
+        int alto=(int) nu.alto;
+        int ancho=(int) nu.ancho;
+        System.out.println("Alto: " + alto + " Ancho: " + ancho);
+        //Creación de VentanaInterna
+        VentanaInterna vi = new VentanaInterna(this);
         escritorio.add(vi);
-        try {
-            vi.setSelected(true);
-        } catch (PropertyVetoException ex) {
-            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }
         jLabelEstado.setText("Lápiz");
         jToggleButtonLapiz.setSelected(true);
         vi.setVisible(true);
+        //Definir área de dibujo
         BufferedImage img;
-        img = new BufferedImage(300,300,BufferedImage.TYPE_INT_ARGB);
+        img = new BufferedImage(ancho,alto,BufferedImage.TYPE_INT_ARGB);
         vi.getLienzo().setImage(img);
+        Dimension d = new Dimension(ancho,alto);
+        vi.setSize(d);
+        //Manejador para añadir formas
         MiManejadorLienzo manejador = new MiManejadorLienzo();
         vi.getLienzo().addLienzoListener(manejador);
     }//GEN-LAST:event_jButtonNuevoActionPerformed

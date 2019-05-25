@@ -77,6 +77,7 @@ public class VentanaInterna extends javax.swing.JInternalFrame {
             }
         });
 
+        jScrollPane.setAutoscrolls(true);
         jScrollPane.setPreferredSize(new java.awt.Dimension(500, 350));
 
         javax.swing.GroupLayout lienzoImagen2DLayout = new javax.swing.GroupLayout(lienzoImagen2D);

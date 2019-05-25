@@ -10,7 +10,9 @@ package practica7;
  * @author JaviBl8
  */
 public class Nuevo extends javax.swing.JDialog {
-
+    
+    Boolean enviar=false;
+    double ancho, alto;
     /**
      * Creates new form Nuevo
      */
@@ -31,47 +33,57 @@ public class Nuevo extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        jTextFieldAncho = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        jTextFieldAlto = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        getContentPane().setLayout(new java.awt.GridLayout(3, 1));
 
         jLabel1.setText("Introduzca el tamaño que desea que tenga el lienzo");
-        getContentPane().add(jLabel1, java.awt.BorderLayout.NORTH);
+        getContentPane().add(jLabel1);
 
         jPanel1.setLayout(new java.awt.GridLayout(2, 2));
 
         jLabel3.setText("Ancho");
         jPanel1.add(jLabel3);
-
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jTextField2);
+        jPanel1.add(jTextFieldAncho);
 
         jLabel2.setText("Alto");
         jPanel1.add(jLabel2);
-        jPanel1.add(jTextField3);
+        jPanel1.add(jTextFieldAlto);
 
-        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
+        getContentPane().add(jPanel1);
+
+        jButton1.setText("Enviar");
+        jButton1.setMaximumSize(new java.awt.Dimension(30, 32));
+        jButton1.setMinimumSize(new java.awt.Dimension(30, 32));
+        jButton1.setPreferredSize(new java.awt.Dimension(30, 32));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        ancho = Integer.parseInt(this.jTextFieldAncho.getText());
+        alto = Integer.parseInt(this.jTextFieldAlto.getText());
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextFieldAlto;
+    private javax.swing.JTextField jTextFieldAncho;
     // End of variables declaration//GEN-END:variables
 }

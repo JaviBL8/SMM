@@ -24,6 +24,8 @@ public class LienzoImagen2D extends Lienzo2D {
     private boolean fondo=true;
     private String extension="PNG";
     private int rgbValue;
+    private int alto;
+    private int ancho;
     
     public int getRGBValue(){
         return rgbValue;
@@ -32,9 +34,11 @@ public class LienzoImagen2D extends Lienzo2D {
     public void setImage(BufferedImage img){
         this.img = img;
         if(img!=null) {
-            setPreferredSize(new Dimension(img.getWidth(),img.getHeight()));
+            ancho=img.getWidth();
+            alto=img.getHeight();
+            setPreferredSize(new Dimension(ancho,alto));
             //Clip de la imagen
-            setClip(new Rectangle(0, 0, img.getWidth(), img.getHeight()));
+            setClip(new Rectangle(0, 0, ancho, alto));
         }       
     }
     
@@ -130,14 +134,10 @@ public class LienzoImagen2D extends Lienzo2D {
     }//GEN-LAST:event_formMouseExited
 
     private void drawMarco(Graphics g) {
-        //Stroke stk = ((Graphics2D)g).getStroke();
-//        Stroke stk = new BasicStroke(2.5f,CAP_ROUND,JOIN_ROUND);
-//        ((Graphics2D)g).setStroke(stk);
-//        ((Graphics2D)g).draw(new Rectangle(0,0,img.getWidth(),img.getHeight()));
     Graphics2D g2d = (Graphics2D)g;
     if(fondo){
         g2d.setColor(Color.WHITE);
-        g2d.fillRect(0, 0, 300, 300);   
+        g2d.fillRect(0, 0, ancho, alto);   
     }
     Stroke sk = g2d.getStroke();
     float[] discontinuo = { 4.0F, 2.0F };
