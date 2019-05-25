@@ -34,6 +34,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.activation.MimetypesFileTypeMap;
 import javax.imageio.ImageIO;
 import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineListener;
@@ -453,7 +454,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         escritorio.setLayout(escritorioLayout);
         escritorioLayout.setHorizontalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 794, Short.MAX_VALUE)
+            .addGap(0, 1334, Short.MAX_VALUE)
         );
         escritorioLayout.setVerticalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -486,7 +487,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador1.setLayout(jPanelSeparador1Layout);
         jPanelSeparador1Layout.setHorizontalGroup(
             jPanelSeparador1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 4, Short.MAX_VALUE)
+            .addGap(0, 24, Short.MAX_VALUE)
         );
         jPanelSeparador1Layout.setVerticalGroup(
             jPanelSeparador1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -533,7 +534,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador2.setLayout(jPanelSeparador2Layout);
         jPanelSeparador2Layout.setHorizontalGroup(
             jPanelSeparador2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 4, Short.MAX_VALUE)
+            .addGap(0, 24, Short.MAX_VALUE)
         );
         jPanelSeparador2Layout.setVerticalGroup(
             jPanelSeparador2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -579,7 +580,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador3.setLayout(jPanelSeparador3Layout);
         jPanelSeparador3Layout.setHorizontalGroup(
             jPanelSeparador3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 4, Short.MAX_VALUE)
+            .addGap(0, 24, Short.MAX_VALUE)
         );
         jPanelSeparador3Layout.setVerticalGroup(
             jPanelSeparador3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -634,7 +635,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador4.setLayout(jPanelSeparador4Layout);
         jPanelSeparador4Layout.setHorizontalGroup(
             jPanelSeparador4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 4, Short.MAX_VALUE)
+            .addGap(0, 24, Short.MAX_VALUE)
         );
         jPanelSeparador4Layout.setVerticalGroup(
             jPanelSeparador4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -697,7 +698,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador5.setLayout(jPanelSeparador5Layout);
         jPanelSeparador5Layout.setHorizontalGroup(
             jPanelSeparador5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 4, Short.MAX_VALUE)
+            .addGap(0, 24, Short.MAX_VALUE)
         );
         jPanelSeparador5Layout.setVerticalGroup(
             jPanelSeparador5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -743,7 +744,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador6.setLayout(jPanelSeparador6Layout);
         jPanelSeparador6Layout.setHorizontalGroup(
             jPanelSeparador6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 4, Short.MAX_VALUE)
+            .addGap(0, 24, Short.MAX_VALUE)
         );
         jPanelSeparador6Layout.setVerticalGroup(
             jPanelSeparador6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -767,7 +768,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jSliderRotacion.setMaximum(180);
         jSliderRotacion.setMinimum(-180);
         jSliderRotacion.setMinorTickSpacing(5);
-        jSliderRotacion.setPaintTicks(true);
         jSliderRotacion.setValue(0);
         jSliderRotacion.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jSliderRotacion.setPreferredSize(new java.awt.Dimension(300, 27));
@@ -823,7 +823,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador7.setLayout(jPanelSeparador7Layout);
         jPanelSeparador7Layout.setHorizontalGroup(
             jPanelSeparador7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 4, Short.MAX_VALUE)
+            .addGap(0, 24, Short.MAX_VALUE)
         );
         jPanelSeparador7Layout.setVerticalGroup(
             jPanelSeparador7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -870,7 +870,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador8.setLayout(jPanelSeparador8Layout);
         jPanelSeparador8Layout.setHorizontalGroup(
             jPanelSeparador8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 4, Short.MAX_VALUE)
+            .addGap(0, 24, Short.MAX_VALUE)
         );
         jPanelSeparador8Layout.setVerticalGroup(
             jPanelSeparador8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -914,7 +914,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador9.setLayout(jPanelSeparador9Layout);
         jPanelSeparador9Layout.setHorizontalGroup(
             jPanelSeparador9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 19, Short.MAX_VALUE)
+            .addGap(0, 98, Short.MAX_VALUE)
         );
         jPanelSeparador9Layout.setVerticalGroup(
             jPanelSeparador9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1036,8 +1036,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         //Ventana para tamaño lienzo
         Nuevo nu = new Nuevo(this,true);
         nu.setVisible(true);   
-        int alto=(int) nu.alto;
-        int ancho=(int) nu.ancho;
+        int alto=300;
+        int ancho=300;
+        
+        if(nu.alto!=0){
+           alto = (int) nu.alto;
+        }
+        if(nu.ancho!=0){
+            ancho=(int) nu.ancho;
+        }
+        
         System.out.println("Alto: " + alto + " Ancho: " + ancho);
         //Creación de VentanaInterna
         VentanaInterna vi = new VentanaInterna(this);
@@ -1059,31 +1067,47 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void jButtonAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAbrirActionPerformed
         JFileChooser dlg = new JFileChooser();
         dlg.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        dlg.addChoosableFileFilter(new FileNameExtensionFilter("JPG","jpg"));
+        //Formatos de imagen
+        dlg.addChoosableFileFilter(new FileNameExtensionFilter("JPG","jpeg","jpg"));
         dlg.addChoosableFileFilter(new FileNameExtensionFilter("PNG","PNG"));
-        //FileFilter filter = new FileNameExtensionFilter("jpg, png, tiff, bmp ...", ImageIO.getReaderFileSuffixes());
-        //dlg.addChoosableFileFilter(filter);
-        //dlg.setFileFilter(filter);
+        dlg.addChoosableFileFilter(new FileNameExtensionFilter("GIF","gif"));
+        //Formatos de audio
+        dlg.addChoosableFileFilter(new FileNameExtensionFilter("WAV","wav"));
+        dlg.addChoosableFileFilter(new FileNameExtensionFilter("MP3","mp3"));
+        dlg.addChoosableFileFilter(new FileNameExtensionFilter("OGG","ogg"));
+        
         dlg.setAcceptAllFileFilterUsed(true);
         int resp = dlg.showOpenDialog(this);
         if( resp == JFileChooser.APPROVE_OPTION) {
             try{
                 File f = dlg.getSelectedFile();
-                BufferedImage img = ImageIO.read(f);
-                //imgSource = new BufferedImage(img.getWidth(),img.getHeight(),BufferedImage.TYPE_INT_ARGB);
-                VentanaInterna vi = new VentanaInterna(this);
-                //Redimensionado de la ventana  
-                vi.setSize(img.getWidth(), img.getHeight());
-                vi.getLienzo().setFondo(false);
-                vi.getLienzo().setImage(img);
-                this.escritorio.add(vi);
-                vi.setTitle(f.getName());
-                String extension=f.getName();
-                int indicePunto = extension.lastIndexOf(".");
-                extension=extension.substring(indicePunto+1);
-                vi.getLienzo().setExtension(extension);
-                System.out.println("Extension para abrir: " + vi.getLienzo().getExtension());
-                vi.setVisible(true);
+                
+                String mimetype= new MimetypesFileTypeMap().getContentType(f);
+                String type = mimetype.split("/")[0];
+                
+                if(type.equals("image")){
+                    BufferedImage img = ImageIO.read(f);
+                    VentanaInterna vi2 = new VentanaInterna(this);
+                    //Redimensionado de la ventana  
+                    vi2.setSize(img.getWidth(), img.getHeight());
+                    vi2.getLienzo().setFondo(false);
+                    vi2.getLienzo().setImage(img);
+                    this.escritorio.add(vi2);
+                    vi2.setTitle(f.getName());
+                    String extension=f.getName();
+                    int indicePunto = extension.lastIndexOf(".");
+                    extension=extension.substring(indicePunto+1);
+                    vi2.getLienzo().setExtension(extension);
+                    System.out.println("Extension para abrir: " + vi2.getLienzo().getExtension());
+                    vi2.setVisible(true);
+                }                    
+                else{
+                    //Es un fichero de audio
+                    jComboBoxAudios.addItem(f);
+                } 
+                    
+                
+                
             }catch(IOException ex){
                 //JOptionPane.showMessageDialog(null, "alert", "alert", JOptionPane.ERROR_MESSAGE);
                 JOptionPane.showMessageDialog(this,"La imagen está dañada o no se reconoce", "error", JOptionPane.ERROR_MESSAGE);

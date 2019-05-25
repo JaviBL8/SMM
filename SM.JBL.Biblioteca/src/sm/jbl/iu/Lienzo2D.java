@@ -174,18 +174,14 @@ public class Lienzo2D extends javax.swing.JPanel {
     public void paint(Graphics g){
         super.paint(g);
         Graphics2D g2d = (Graphics2D)g;
-        setAtributos(g2d);
-        if(figuraSeleccionada){
-            g2d.draw(((Shape)figura).getBounds2D());
-        }
-    }
-    
-    public void setAtributos(Graphics2D g2d){
-        
         for(Figura s:vShape) {
             //g2d.draw((Shape)s);
             g2d.clip(clip);
             s.paint(g2d);
+        }
+        //ESTO NO PUEDE ESTAR AQUÍ
+        if(figuraSeleccionada){
+            g2d.draw(((Shape)figura).getBounds2D());
         }
     }
     
