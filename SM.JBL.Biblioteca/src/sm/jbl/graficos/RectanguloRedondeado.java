@@ -35,7 +35,12 @@ public class RectanguloRedondeado extends RoundRectangle2D.Double implements Fig
         comp = java.awt.AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0F);
         rend = new RenderingHints(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_OFF);
     }
-        
+
+    @Override
+    public Propiedades getPropiedades() {
+        return this.p;
+    }
+
     @Override
     public Color getColor(){
         return this.p.getColor();
@@ -95,6 +100,9 @@ public class RectanguloRedondeado extends RoundRectangle2D.Double implements Fig
         g2d.setStroke(getStroke());
         g2d.setRenderingHints(rend);
         g2d.setComposite(comp);
+        if(this.p.figuraSeleccionada){
+            g2d.draw(this.getBounds2D());
+        }
         if(getRelleno())    g2d.fill(this);
         //Lo mismo para el resto
         g2d.draw(this);

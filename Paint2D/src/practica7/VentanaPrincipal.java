@@ -58,6 +58,7 @@ import sm.jbl.eventos.LienzoAdapter;
 import sm.jbl.eventos.LienzoEvent;
 import sm.jbl.eventos.MiManejadorLienzo;
 import sm.jbl.graficos.Figura;
+import sm.jbl.herramientas.Propiedades;
 import sm.jbl.image.SepiaOp;
 import sm.jbl.iu.AcercaDe;
 import sm.sound.SMClipPlayer;
@@ -77,6 +78,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private SMPlayer player = null;
     private SMRecorder recorder = null;
     private boolean grabando;
+    private Figura figura;
     
     /**
      * Creates new form VentanaPrincipal
@@ -1827,7 +1829,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void jComboBoxFigurasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxFigurasActionPerformed
         VentanaInterna vi = (VentanaInterna)escritorio.getSelectedFrame();
         if (vi != null){
-            vi.getLienzo().setFigura((Figura) jComboBoxFiguras.getSelectedItem());
+            //Quito elboundboxing de una
+            if(figura!=null){
+                Propiedades p1 = figura.getPropiedades();
+                p1.setSelected(false);
+            }            
+            //Se lo pongo a otra
+            figura = (Figura) jComboBoxFiguras.getSelectedItem();
+            Propiedades p2 = figura.getPropiedades();
+            p2.setSelected(true);
+            this.repaint();
         }
     }//GEN-LAST:event_jComboBoxFigurasActionPerformed
 

@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
+import sm.jbl.herramientas.Propiedades;
 
 
 /**
@@ -42,4 +43,6 @@ public interface Figura{
     public void setStroke(int stroke);
     
     public void paint(Graphics2D g2d);
+
+    public Propiedades getPropiedades();
 }

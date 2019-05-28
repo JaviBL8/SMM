@@ -33,6 +33,11 @@ public class Rectangulo extends Rectangle implements Figura{
     }
         
     @Override
+    public Propiedades getPropiedades() {
+        return this.p;
+    }
+    
+    @Override
     public Color getColor(){
         return this.p.getColor();
     }
@@ -94,7 +99,7 @@ public class Rectangulo extends Rectangle implements Figura{
         if(this.p.figuraSeleccionada){
             g2d.draw(this.getBounds2D());
         }
-        if(getRelleno())    g2d.fill(this);
+        if(getRelleno()) g2d.fill(this);
         //Lo mismo para el resto
         g2d.draw(this);
     }
@@ -102,8 +107,7 @@ public class Rectangulo extends Rectangle implements Figura{
     @Override
     public String toString(){
         return "Rectángulo";
-    }
-    
+    }   
     
 }
 

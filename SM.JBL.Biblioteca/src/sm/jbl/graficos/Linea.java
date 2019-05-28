@@ -26,6 +26,11 @@ public class Linea extends Line2D.Double implements Figura{
     private RenderingHints rend;   
     
     @Override
+    public Propiedades getPropiedades() {
+        return this.p;
+    }
+    
+    @Override
     public Color getColor(){
         return p.getColor();
     }
@@ -109,6 +114,9 @@ public class Linea extends Line2D.Double implements Figura{
         g2d.setStroke(getStroke());
         g2d.setRenderingHints(rend);
         g2d.setComposite(comp);
+        if(this.p.figuraSeleccionada){
+            g2d.draw(this.getBounds2D());
+        }
         if(getRelleno())    g2d.fill(this);
         //Lo mismo para el resto
         g2d.draw(this);

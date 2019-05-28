@@ -7,7 +7,7 @@ package practica7;
 public class TamanoLienzo extends javax.swing.JDialog {
     
     Boolean enviar=false;
-    double ancho, alto;
+    double ancho=300, alto=300;
     /**
      * Creates new form Nuevo
      */

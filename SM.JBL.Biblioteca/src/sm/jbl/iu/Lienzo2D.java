@@ -44,7 +44,6 @@ public class Lienzo2D extends javax.swing.JPanel {
     private ImageIcon imgTrasnparente = new ImageIcon(getClass().getResource("/iconos/transparencia.png"));
     private Toolkit tk = Toolkit.getDefaultToolkit();
     ArrayList<LienzoListener> lienzoEventListeners = new ArrayList();
-    private boolean figuraSeleccionada=false;
     
     
     /**
@@ -59,12 +58,6 @@ public class Lienzo2D extends javax.swing.JPanel {
 
     public boolean getEditar(){
         return editar;
-    }
-    
-    public void setFigura(Figura f){
-        this.figura = f;
-        figuraSeleccionada=true;
-        this.repaint();
     }
     
     public void setEditar(boolean editar){
