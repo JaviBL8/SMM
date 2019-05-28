@@ -12,6 +12,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.awt.Stroke;
 import sm.jbl.herramientas.Propiedades;
 
@@ -90,6 +91,9 @@ public class Rectangulo extends Rectangle implements Figura{
         g2d.setStroke(getStroke());
         g2d.setRenderingHints(rend);
         g2d.setComposite(comp);
+        if(this.p.figuraSeleccionada){
+            g2d.draw(this.getBounds2D());
+        }
         if(getRelleno())    g2d.fill(this);
         //Lo mismo para el resto
         g2d.draw(this);

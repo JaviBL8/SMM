@@ -22,6 +22,7 @@ public class Propiedades {
     private Stroke stroke;
     private boolean transparencia;
     AlphaComposite composite = java.awt.AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0F);
+    public boolean figuraSeleccionada=false;
     
     public Propiedades(){
         relleno = false;
@@ -37,6 +38,14 @@ public class Propiedades {
     
     public void setColor(Color color){
         this.color=color;
+    }
+    
+    public boolean isSelected(){
+        return figuraSeleccionada;
+    }
+    
+    public void setSelected(boolean seleccionada){
+        this.figuraSeleccionada=seleccionada;
     }
 
     public boolean getRelleno(){

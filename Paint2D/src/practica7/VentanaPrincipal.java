@@ -59,6 +59,7 @@ import sm.jbl.eventos.LienzoEvent;
 import sm.jbl.eventos.MiManejadorLienzo;
 import sm.jbl.graficos.Figura;
 import sm.jbl.image.SepiaOp;
+import sm.jbl.iu.AcercaDe;
 import sm.sound.SMClipPlayer;
 import sm.sound.SMPlayer;
 import sm.sound.SMRecorder;
@@ -1041,7 +1042,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jMenuAyuda.setText("Ayuda");
 
-        jCheckBoxMenuItemAcerca.setSelected(true);
         jCheckBoxMenuItemAcerca.setText("Acerca de");
         jCheckBoxMenuItemAcerca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1063,7 +1063,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         VentanaInterna vi = (VentanaInterna)escritorio.getSelectedFrame();
         if(vi != null){
             vi.getLienzo().setEditar(false);
-            vi.getLienzo().setHerramienta(Herramientas.LAPIZ);
+            vi.getLienzo().setHerramienta(Herramientas.PUNTO);
             jLabelEstado.setText("Lápiz");
         }        
     }//GEN-LAST:event_jToggleButtonLapizActionPerformed
@@ -1167,10 +1167,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 else{
                     //Es un fichero de audio
                     jComboBoxAudios.addItem(f);
-                } 
-                    
-                
-                
+                }                
             }catch(IOException ex){
                 //JOptionPane.showMessageDialog(null, "alert", "alert", JOptionPane.ERROR_MESSAGE);
                 JOptionPane.showMessageDialog(this,"La imagen está dañada o no se reconoce", "error", JOptionPane.ERROR_MESSAGE);
@@ -1210,7 +1207,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                         else{
                             ImageIO.write(img, "jpg", f);
                         }
-                            vi.setTitle(f.getName());
+                        vi.setTitle(f.getName());
                     }
                 }catch (Exception ex) {
                     JOptionPane.showMessageDialog(this,"Error al guardar la imagen", "error", JOptionPane.ERROR_MESSAGE);
@@ -1928,8 +1925,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jCheckBoxMenuItemSuperiorActionPerformed
 
     private void jCheckBoxMenuItemAcercaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItemAcercaActionPerformed
-        
-
+        AcercaDe acd = new AcercaDe(this,true);
+        acd.setVisible(true);
     }//GEN-LAST:event_jCheckBoxMenuItemAcercaActionPerformed
     
     public LookupTable lookUpPersonalizado(double n){

@@ -106,7 +106,7 @@ public class VentanaInterna extends javax.swing.JInternalFrame {
         parentPrincipal.buttonGroup.clearSelection();
         //Botones herramientas
         switch(herramienta){
-            case LAPIZ:               
+            case PUNTO:               
                 parentPrincipal.jToggleButtonLapiz.setSelected(true);
                 parentPrincipal.jLabelEstado.setText("Lápiz");
                 break;

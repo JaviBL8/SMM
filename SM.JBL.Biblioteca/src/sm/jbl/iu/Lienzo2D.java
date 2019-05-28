@@ -29,7 +29,7 @@ import sm.jbl.graficos.*;
  */
 public class Lienzo2D extends javax.swing.JPanel {
 
-    public Herramientas herramienta = Herramientas.LAPIZ;
+    public Herramientas herramienta = Herramientas.PUNTO;
     private Point2D punto1;
     private Point2D punto2; 
     private Point2D offSet;
@@ -179,10 +179,6 @@ public class Lienzo2D extends javax.swing.JPanel {
             g2d.clip(clip);
             s.paint(g2d);
         }
-        //ESTO NO PUEDE ESTAR AQUÍ
-        if(figuraSeleccionada){
-            g2d.draw(((Shape)figura).getBounds2D());
-        }
     }
     
     public void setHerramienta(Herramientas herramienta){
@@ -217,7 +213,7 @@ public class Lienzo2D extends javax.swing.JPanel {
         //Nueva figura
         figura=null;
         switch(herramienta){
-            case LAPIZ:
+            case PUNTO:
                 figura = new Linea(punto1,punto1);
                 break;
             case RECTANGULO:

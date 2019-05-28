@@ -10,7 +10,7 @@ package sm.jbl.herramientas;
  * @author JaviBl8
  */
 public enum Herramientas {
-    LAPIZ,
+    PUNTO,
     LINEA,
     CIRCULO,
     RECTANGULO,
