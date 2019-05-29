@@ -38,10 +38,6 @@ public class Lienzo2D extends javax.swing.JPanel {
     List<Figura> vShape = new ArrayList();
     protected Rectangle clip;    
     private boolean editar=false;
-    private Color color;
-    private ImageIcon imgRelleno = new ImageIcon(getClass().getResource("/iconos/rellenar.png"));
-    private ImageIcon imgAlisado = new ImageIcon(getClass().getResource("/iconos/alisar.png"));
-    private ImageIcon imgTrasnparente = new ImageIcon(getClass().getResource("/iconos/transparencia.png"));
     private Toolkit tk = Toolkit.getDefaultToolkit();
     ArrayList<LienzoListener> lienzoEventListeners = new ArrayList();
     
@@ -62,28 +58,6 @@ public class Lienzo2D extends javax.swing.JPanel {
     
     public void setEditar(boolean editar){
         this.editar=editar;
-    }
-    
-    public void setRellenar(boolean rellenar) {
-        figura.setRelleno(true);
-        figura.setColor(color);
-        repaint();
-    }
-    
-    public void setTransparentar(boolean transparentar) {
-        figura.setTransparente(true);
-    }
-    
-    public void setAlisar(boolean alisar) {
-        figura.setAlisado(true);
-    }
-    
-    public void setColor(Color c){
-        if(c!=null){
-            this.color=c;
-            if(figura!=null && editar) figura.setColor(color);
-            repaint();
-        }        
     }
     
     @SuppressWarnings("unchecked")
@@ -168,7 +142,6 @@ public class Lienzo2D extends javax.swing.JPanel {
         super.paint(g);
         Graphics2D g2d = (Graphics2D)g;
         for(Figura s:vShape) {
-            //g2d.draw((Shape)s);
             g2d.clip(clip);
             s.paint(g2d);
         }
@@ -229,7 +202,6 @@ public class Lienzo2D extends javax.swing.JPanel {
         
             //Añadir figura al combobox    
         }  
-        figura.setColor(color);
         vShape.add(figura);
         notifyShapeAddedEvent( new LienzoEvent(this,(Shape)figura));
     }

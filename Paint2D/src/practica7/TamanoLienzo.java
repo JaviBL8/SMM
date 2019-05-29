@@ -29,45 +29,73 @@ public class TamanoLienzo extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jTextFieldAncho = new javax.swing.JTextField();
+        jSeparator1 = new javax.swing.JSeparator();
         jLabel2 = new javax.swing.JLabel();
         jTextFieldAlto = new javax.swing.JTextField();
+        jPanel2 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new java.awt.GridLayout(3, 1));
 
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Introduzca el tamaño que desea que tenga el lienzo");
+        jLabel1.setMaximumSize(new java.awt.Dimension(350, 16));
+        jLabel1.setMinimumSize(new java.awt.Dimension(150, 16));
+        jLabel1.setPreferredSize(new java.awt.Dimension(350, 16));
         getContentPane().add(jLabel1);
 
         jPanel1.setLayout(new java.awt.GridLayout(2, 2));
 
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Ancho");
         jPanel1.add(jLabel3);
+
+        jTextFieldAncho.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jPanel1.add(jTextFieldAncho);
 
+        jSeparator1.setBackground(new java.awt.Color(0, 0, 0));
+        jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
+        jSeparator1.setToolTipText("");
+        jSeparator1.setEnabled(false);
+        jPanel1.add(jSeparator1);
+
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Alto");
         jPanel1.add(jLabel2);
+
+        jTextFieldAlto.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jPanel1.add(jTextFieldAlto);
 
         getContentPane().add(jPanel1);
 
         jButton1.setText("Enviar");
-        jButton1.setMaximumSize(new java.awt.Dimension(30, 32));
+        jButton1.setMaximumSize(new java.awt.Dimension(200, 200));
         jButton1.setMinimumSize(new java.awt.Dimension(30, 32));
-        jButton1.setPreferredSize(new java.awt.Dimension(30, 32));
+        jButton1.setPreferredSize(new java.awt.Dimension(100, 50));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1);
+        jPanel2.add(jButton1);
+
+        getContentPane().add(jPanel2);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        ancho = Integer.parseInt(this.jTextFieldAncho.getText());
-        alto = Integer.parseInt(this.jTextFieldAlto.getText());
+        String an = this.jTextFieldAncho.getText();
+        String al = this.jTextFieldAlto.getText();
+        
+        if(!an.isEmpty() && !al.isEmpty()){
+            ancho = Integer.parseInt(this.jTextFieldAncho.getText());
+            alto = Integer.parseInt(this.jTextFieldAlto.getText());
+        }else{
+            ancho = 300;
+            alto = 300;
+        }
         this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -78,6 +106,8 @@ public class TamanoLienzo extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField jTextFieldAlto;
     private javax.swing.JTextField jTextFieldAncho;
     // End of variables declaration//GEN-END:variables

@@ -94,7 +94,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         @Override
         public void shapeAdded(LienzoEvent evt){
             ((DefaultComboBoxModel)jComboBoxFiguras.getModel()).addElement(evt.getForma());
-            Figura f = (Figura) jComboBoxFiguras.getSelectedItem();
+            jComboBoxFiguras.setSelectedItem(evt.getForma());
+            figura = (Figura) jComboBoxFiguras.getSelectedItem();
             System.out.println("Figura "+evt.getForma()+" añadida");
         }
     }    
@@ -230,6 +231,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jToolBarHerramientas.setDoubleBuffered(true);
 
         jButtonNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/nuevo.png"))); // NOI18N
+        jButtonNuevo.setToolTipText("Nuevo");
         jButtonNuevo.setFocusable(false);
         jButtonNuevo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButtonNuevo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -241,6 +243,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jToolBarHerramientas.add(jButtonNuevo);
 
         jButtonAbrir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/abrir.png"))); // NOI18N
+        jButtonAbrir.setToolTipText("Abrir");
         jButtonAbrir.setFocusable(false);
         jButtonAbrir.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButtonAbrir.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -252,6 +255,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jToolBarHerramientas.add(jButtonAbrir);
 
         jButtonGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/guardar.png"))); // NOI18N
+        jButtonGuardar.setToolTipText("Guardar");
         jButtonGuardar.setFocusable(false);
         jButtonGuardar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButtonGuardar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -408,6 +412,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jButtonAlisado.setFocusable(false);
         jButtonAlisado.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButtonAlisado.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButtonAlisado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAlisadoActionPerformed(evt);
+            }
+        });
         jToolBarHerramientas.add(jButtonAlisado);
         jToolBarHerramientas.add(jSeparator6);
 
@@ -1236,10 +1245,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         java.awt.Color c = (java.awt.Color)jComboBoxColores.getSelectedItem();
         VentanaInterna vi = (VentanaInterna)escritorio.getSelectedFrame();
         if(vi != null){
-            vi.getLienzo().setEditar(true);
-            vi.getLienzo().setColor(c);
-            vi.indiceColores=jComboBoxColores.getSelectedIndex();
+            figura = (Figura) jComboBoxFiguras.getSelectedItem();
+            if(figura!=null){            
+                figura.setColor(c);
+                this.repaint();
+            }
         }
+        vi.indiceColores=jComboBoxColores.getSelectedIndex();
         repaint();
     }//GEN-LAST:event_jComboBoxColoresActionPerformed
 
@@ -1831,13 +1843,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         if (vi != null){
             //Quito elboundboxing de una
             if(figura!=null){
-                Propiedades p1 = figura.getPropiedades();
-                p1.setSelected(false);
+               figura.getPropiedades().setSelected(false);
             }            
             //Se lo pongo a otra
             figura = (Figura) jComboBoxFiguras.getSelectedItem();
-            Propiedades p2 = figura.getPropiedades();
-            p2.setSelected(true);
+            figura.getPropiedades().setSelected(true);
             this.repaint();
         }
     }//GEN-LAST:event_jComboBoxFigurasActionPerformed
@@ -1845,16 +1855,22 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void jButtonRellenoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRellenoActionPerformed
         VentanaInterna vi = (VentanaInterna)escritorio.getSelectedFrame();
         if(vi != null){
-            vi.getLienzo().setEditar(true);
-            vi.getLienzo().setRellenar(true);
+            figura = (Figura) jComboBoxFiguras.getSelectedItem();
+            if(figura!=null){            
+                figura.setRelleno((!(figura.getPropiedades().getRelleno())));
+                this.repaint();
+            }
         }
     }//GEN-LAST:event_jButtonRellenoActionPerformed
 
     private void jButtonTransparenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTransparenciaActionPerformed
         VentanaInterna vi = (VentanaInterna)escritorio.getSelectedFrame();
         if(vi != null){
-            vi.getLienzo().setEditar(true);
-            vi.getLienzo().setTransparentar(true);
+            figura = (Figura) jComboBoxFiguras.getSelectedItem();
+            if(figura!=null){            
+                figura.setTransparente((!(figura.getPropiedades().getTransparencia())));
+                this.repaint();
+            }
         }
     }//GEN-LAST:event_jButtonTransparenciaActionPerformed
 
@@ -1939,6 +1955,17 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         AcercaDe acd = new AcercaDe(this,true);
         acd.setVisible(true);
     }//GEN-LAST:event_jCheckBoxMenuItemAcercaActionPerformed
+
+    private void jButtonAlisadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlisadoActionPerformed
+        VentanaInterna vi = (VentanaInterna)escritorio.getSelectedFrame();
+        if(vi != null){
+            figura = (Figura) jComboBoxFiguras.getSelectedItem();
+            if(figura!=null){            
+                figura.setAlisado((!(figura.getPropiedades().getAlisado())));
+                this.repaint();
+            }
+        }
+    }//GEN-LAST:event_jButtonAlisadoActionPerformed
     
     public LookupTable lookUpPersonalizado(double n){
         double K = 255.0D / Math.pow(255.0D, n);
