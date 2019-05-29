@@ -172,6 +172,7 @@ public class Lienzo2D extends javax.swing.JPanel {
             ((Arco)figura).setFrame(punto2.getX()+offSet.getX(),punto2.getY()+offSet.getY(),
                     ((Arco) figura).getWidth(), ((Arco) figura).getHeight());
         }
+        notifyPropertyChangeEvent( new LienzoEvent(this,(Shape)figura));
         
     }
     

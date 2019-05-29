@@ -5,7 +5,6 @@
  */
 package sm.jbl.eventos;
 
-import java.awt.Color;
 import java.awt.Shape;
 import java.util.EventObject;
 

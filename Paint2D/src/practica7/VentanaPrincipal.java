@@ -11,8 +11,10 @@ import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Shape;
 import java.awt.Transparency;
 import java.awt.color.ColorSpace;
+import java.awt.event.ActionEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.AffineTransformOp;
@@ -39,6 +41,8 @@ import javax.activation.MimetypesFileTypeMap;
 import javax.imageio.ImageIO;
 import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineListener;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.Box;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
@@ -90,6 +94,19 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jComboBoxFiguras.setModel(new DefaultComboBoxModel());
     }
     
+    Action action = new AbstractAction()
+    {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+            String X = jTextFieldX.getText();
+            String Y = jTextFieldY.getText();
+            System.out.println("Moviendo figura");
+            figura.mover(Double.parseDouble(X), Double.parseDouble(Y));
+        }
+    };
+    
+    
     public class MiManejadorLienzo extends LienzoAdapter{
         @Override
         public void shapeAdded(LienzoEvent evt){
@@ -97,6 +114,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             jComboBoxFiguras.setSelectedItem(evt.getForma());
             figura = (Figura) jComboBoxFiguras.getSelectedItem();
             System.out.println("Figura "+evt.getForma()+" añadida");
+        }
+        
+        @Override
+        public void propertyChange(LienzoEvent evt){
+            //Set posicion
+            jTextFieldX.setText( Double.toString( ((Shape)figura).getBounds2D().getCenterX()));
+            jTextFieldY.setText( Double.toString( ((Shape)figura).getBounds2D().getCenterY()));
         }
     }    
     
@@ -141,6 +165,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jComboBoxColores = new javax.swing.JComboBox(colores);
         jSeparator3 = new javax.swing.JToolBar.Separator();
         jComboBoxFiguras = new javax.swing.JComboBox<>();
+        jSeparator7 = new javax.swing.JToolBar.Separator();
+        jPanel1 = new javax.swing.JPanel();
+        jLabelX = new javax.swing.JLabel();
+        jTextFieldX = new javax.swing.JTextField();
+        jLabelY = new javax.swing.JLabel();
+        jTextFieldY = new javax.swing.JTextField();
+        jSeparator8 = new javax.swing.JToolBar.Separator();
         jSpinnerGrosor = new javax.swing.JSpinner();
         jSeparator4 = new javax.swing.JToolBar.Separator();
         jButtonRelleno = new javax.swing.JButton();
@@ -229,6 +260,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jToolBarHerramientas.setDoubleBuffered(true);
+        jToolBarHerramientas.setPreferredSize(new java.awt.Dimension(951, 45));
 
         jButtonNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/nuevo.png"))); // NOI18N
         jButtonNuevo.setToolTipText("Nuevo");
@@ -269,6 +301,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         buttonGroup.add(jToggleButtonLapiz);
         jToggleButtonLapiz.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/punto.png"))); // NOI18N
+        jToggleButtonLapiz.setToolTipText("Punto");
         jToggleButtonLapiz.setFocusable(false);
         jToggleButtonLapiz.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jToggleButtonLapiz.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -281,6 +314,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         buttonGroup.add(jToggleButtonLinea);
         jToggleButtonLinea.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/linea.png"))); // NOI18N
+        jToggleButtonLinea.setToolTipText("Linea");
         jToggleButtonLinea.setFocusable(false);
         jToggleButtonLinea.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jToggleButtonLinea.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -293,6 +327,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         buttonGroup.add(jToggleButtonRectangulo);
         jToggleButtonRectangulo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/rectangulo.png"))); // NOI18N
+        jToggleButtonRectangulo.setToolTipText("Rectangulo");
         jToggleButtonRectangulo.setFocusable(false);
         jToggleButtonRectangulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jToggleButtonRectangulo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -305,6 +340,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         buttonGroup.add(jToggleButtonOvalo);
         jToggleButtonOvalo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/elipse.png"))); // NOI18N
+        jToggleButtonOvalo.setToolTipText("Elipse");
         jToggleButtonOvalo.setFocusable(false);
         jToggleButtonOvalo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jToggleButtonOvalo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -329,6 +365,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         buttonGroup.add(jToggleButtonRoundRectangle);
         jToggleButtonRoundRectangle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/rounded-rectangle.png"))); // NOI18N
+        jToggleButtonRoundRectangle.setToolTipText("RectanguloRedondeado");
         jToggleButtonRoundRectangle.setFocusable(false);
         jToggleButtonRoundRectangle.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jToggleButtonRoundRectangle.setMaximumSize(new java.awt.Dimension(36, 36));
@@ -344,6 +381,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         buttonGroup.add(jToggleButtonArco);
         jToggleButtonArco.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/arc.png"))); // NOI18N
+        jToggleButtonArco.setToolTipText("Curva");
         jToggleButtonArco.setFocusable(false);
         jToggleButtonArco.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jToggleButtonArco.setMaximumSize(new java.awt.Dimension(36, 36));
@@ -369,13 +407,38 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jToolBarHerramientas.add(jComboBoxColores);
         jToolBarHerramientas.add(jSeparator3);
 
+        jComboBoxFiguras.setToolTipText("Figuras");
         jComboBoxFiguras.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxFigurasActionPerformed(evt);
             }
         });
         jToolBarHerramientas.add(jComboBoxFiguras);
+        jToolBarHerramientas.add(jSeparator7);
 
+        jPanel1.setPreferredSize(new java.awt.Dimension(150, 30));
+
+        jLabelX.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelX.setText("X");
+        jLabelX.setToolTipText("PosicionX");
+        jPanel1.add(jLabelX);
+
+        jTextFieldX.addActionListener( action );
+        jTextFieldX.setPreferredSize(new java.awt.Dimension(50, 24));
+        jPanel1.add(jTextFieldX);
+
+        jLabelY.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelY.setText("Y");
+        jLabelY.setToolTipText("PosicionY");
+        jPanel1.add(jLabelY);
+
+        jTextFieldY.setPreferredSize(new java.awt.Dimension(50, 24));
+        jPanel1.add(jTextFieldY);
+
+        jToolBarHerramientas.add(jPanel1);
+        jToolBarHerramientas.add(jSeparator8);
+
+        jSpinnerGrosor.setToolTipText("Grosor");
         jSpinnerGrosor.setPreferredSize(new java.awt.Dimension(42, 30));
         jSpinnerGrosor.setValue(1);
         jSpinnerGrosor.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -387,6 +450,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jToolBarHerramientas.add(jSeparator4);
 
         jButtonRelleno.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/rellenar.png"))); // NOI18N
+        jButtonRelleno.setToolTipText("Rellenar");
         jButtonRelleno.setFocusable(false);
         jButtonRelleno.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButtonRelleno.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -398,6 +462,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jToolBarHerramientas.add(jButtonRelleno);
 
         jButtonTransparencia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/transparencia.png"))); // NOI18N
+        jButtonTransparencia.setToolTipText("Transparentar");
         jButtonTransparencia.setFocusable(false);
         jButtonTransparencia.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButtonTransparencia.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -409,6 +474,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jToolBarHerramientas.add(jButtonTransparencia);
 
         jButtonAlisado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/alisar.png"))); // NOI18N
+        jButtonAlisado.setToolTipText("Alisar");
         jButtonAlisado.setFocusable(false);
         jButtonAlisado.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButtonAlisado.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -421,6 +487,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jToolBarHerramientas.add(jSeparator6);
 
         jButtonPlay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/play24x24.png"))); // NOI18N
+        jButtonPlay.setToolTipText("Play");
         jButtonPlay.setFocusable(false);
         jButtonPlay.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButtonPlay.setMaximumSize(new java.awt.Dimension(36, 39));
@@ -435,6 +502,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jToolBarHerramientas.add(jButtonPlay);
 
         jButtonStop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/pausa24x24.png"))); // NOI18N
+        jButtonStop.setToolTipText("Pause");
         jButtonStop.setFocusable(false);
         jButtonStop.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButtonStop.setMaximumSize(new java.awt.Dimension(36, 39));
@@ -448,6 +516,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         });
         jToolBarHerramientas.add(jButtonStop);
 
+        jComboBoxAudios.setToolTipText("Audios");
         jComboBoxAudios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxAudiosActionPerformed(evt);
@@ -456,6 +525,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jToolBarHerramientas.add(jComboBoxAudios);
 
         jButtonGrabar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/record24x24.png"))); // NOI18N
+        jButtonGrabar.setToolTipText("Grabar");
         jButtonGrabar.setFocusable(false);
         jButtonGrabar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButtonGrabar.setMaximumSize(new java.awt.Dimension(36, 39));
@@ -481,7 +551,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         );
         escritorioLayout.setVerticalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 284, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         jPanelCentral.add(escritorio, java.awt.BorderLayout.CENTER);
@@ -1848,6 +1918,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             //Se lo pongo a otra
             figura = (Figura) jComboBoxFiguras.getSelectedItem();
             figura.getPropiedades().setSelected(true);
+            
+            //Set posicion
+            this.jTextFieldX.setText( Double.toString( ((Shape)figura).getBounds2D().getCenterX()));
+            this.jTextFieldY.setText( Double.toString( ((Shape)figura).getBounds2D().getCenterY()));
+            
             this.repaint();
         }
     }//GEN-LAST:event_jComboBoxFigurasActionPerformed
@@ -2040,6 +2115,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     protected javax.swing.JLabel jLabelRGB;
     private javax.swing.JLabel jLabelRotacion;
     private javax.swing.JLabel jLabelUmbralizacion;
+    private javax.swing.JLabel jLabelX;
+    private javax.swing.JLabel jLabelY;
     private javax.swing.JMenu jMenuArchivo;
     private javax.swing.JMenu jMenuAyuda;
     private javax.swing.JMenuBar jMenuBar;
@@ -2054,6 +2131,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemNegativo;
     private javax.swing.JMenuItem jMenuItemNuevo;
     private javax.swing.JMenu jMenuVer;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelBotonesColor;
     private javax.swing.JPanel jPanelBotonesContraste;
     private javax.swing.JPanel jPanelBotonesEscala;
@@ -2084,10 +2162,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JToolBar.Separator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JToolBar.Separator jSeparator6;
+    private javax.swing.JToolBar.Separator jSeparator7;
+    private javax.swing.JToolBar.Separator jSeparator8;
     private javax.swing.JSlider jSliderBrillo;
     private javax.swing.JSlider jSliderRotacion;
     private javax.swing.JSlider jSliderUmbralizacion;
     protected javax.swing.JSpinner jSpinnerGrosor;
+    private javax.swing.JTextField jTextFieldX;
+    private javax.swing.JTextField jTextFieldY;
     protected javax.swing.JToggleButton jToggleButtonArco;
     protected javax.swing.JToggleButton jToggleButtonEditar;
     protected javax.swing.JToggleButton jToggleButtonLapiz;

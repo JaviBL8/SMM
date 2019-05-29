@@ -12,8 +12,8 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
-import java.awt.Shape;
 import java.awt.Stroke;
+import static java.lang.Math.min;
 import sm.jbl.herramientas.Propiedades;
 
 /**
@@ -108,6 +108,11 @@ public class Rectangulo extends Rectangle implements Figura{
     public String toString(){
         return "Rectángulo";
     }   
+
+    @Override
+    public void mover(double x, double y) {
+        this.setLocation((int)x,(int)y);
+    }
     
 }
 

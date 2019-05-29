@@ -9,12 +9,11 @@ import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import static java.lang.Math.min;
 import static sm.jbl.graficos.Figura.composite;
 import static sm.jbl.graficos.Figura.render;
 import sm.jbl.herramientas.Propiedades;
@@ -111,6 +110,11 @@ public class RectanguloRedondeado extends RoundRectangle2D.Double implements Fig
     @Override
     public String toString(){
         return "Rectángulo redondeado";
+    }
+    
+    @Override
+    public void mover(double x, double y) {
+        this.setFrame(min(this.getX(),x),min(this.getY(),y),Math.abs(x-this.getX()),Math.abs(y-this.getY()));
     }
 
 }

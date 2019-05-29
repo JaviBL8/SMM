@@ -9,6 +9,7 @@ import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
 import java.awt.geom.Line2D;
@@ -130,5 +131,11 @@ public class Linea extends Line2D.Double implements Figura{
             return "Línea";
         }                
     }
+
+    @Override
+    public void mover(double x, double y) {
+        this.setLocation(new Point((int)x,(int)y));
+    }
+    
     
 }

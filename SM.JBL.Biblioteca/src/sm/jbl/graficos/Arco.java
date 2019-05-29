@@ -12,7 +12,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
 import java.awt.geom.Arc2D;
-import java.awt.geom.Point2D;
+import static java.lang.Math.min;
 import static sm.jbl.graficos.Figura.composite;
 import static sm.jbl.graficos.Figura.render;
 import sm.jbl.herramientas.Propiedades;
@@ -112,5 +112,10 @@ public class Arco extends Arc2D.Double implements Figura{
     public String toString(){
         return "Arco";
     }
-    
+
+    @Override
+    public void mover(double x, double y) {
+        this.setFrame(min(this.getX(),x),min(this.getY(),y),Math.abs(x-this.getX()),Math.abs(y-this.getY()));
+    }
+   
 }

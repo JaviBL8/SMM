@@ -12,6 +12,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
+import static java.lang.Math.min;
 import sm.jbl.herramientas.Propiedades;
 
 /**
@@ -108,5 +109,10 @@ public class Elipse extends Ellipse2D.Double implements Figura{
     @Override
     public String toString(){
         return "Elipse";
+    }
+
+    @Override
+    public void mover(double x, double y) {
+        this.setFrame(min(this.getX(),x),min(this.getY(),y),Math.abs(x-this.getX()),Math.abs(y-this.getY()));
     }
 }

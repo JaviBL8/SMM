@@ -12,7 +12,6 @@ import java.awt.RenderingHints;
 import java.awt.Stroke;
 import sm.jbl.herramientas.Propiedades;
 
-
 /**
  *
  * @author JaviBl8
@@ -45,4 +44,6 @@ public interface Figura{
     public void paint(Graphics2D g2d);
 
     public Propiedades getPropiedades();
+
+    public void mover(double x, double y);
 }

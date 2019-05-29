@@ -14,4 +14,9 @@ public class MiManejadorLienzo extends LienzoAdapter{
     public void shapeAdded(LienzoEvent evt){
         System.out.println("Figura "+evt.getForma()+" añadida");
     }
+    
+    @Override
+    public void propertyChange(LienzoEvent evt){
+        
+    }
 }

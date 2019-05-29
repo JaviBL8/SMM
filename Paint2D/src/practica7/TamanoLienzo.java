@@ -52,6 +52,11 @@ public class TamanoLienzo extends javax.swing.JDialog {
         jPanel1.add(jLabel3);
 
         jTextFieldAncho.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextFieldAncho.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldAnchoActionPerformed(evt);
+            }
+        });
         jPanel1.add(jTextFieldAncho);
 
         jSeparator1.setBackground(new java.awt.Color(0, 0, 0));
@@ -98,6 +103,10 @@ public class TamanoLienzo extends javax.swing.JDialog {
         }
         this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTextFieldAnchoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldAnchoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldAnchoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
