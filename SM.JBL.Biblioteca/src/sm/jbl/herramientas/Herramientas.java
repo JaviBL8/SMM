@@ -6,7 +6,7 @@
 package sm.jbl.herramientas;
 
 /**
- *
+ * Tipos de formas que se permiten dibujar 
  * @author JaviBl8
  */
 public enum Herramientas {

@@ -15,7 +15,7 @@ public class AcercaDe extends java.awt.Dialog {
     /**
      * Creates new form AcercaDe
      * @param parent El frame desde el que se crea
-     * @param modal
+     * @param modal Modal
      */
     public AcercaDe(java.awt.Frame parent, boolean modal) {
         super(parent, modal);

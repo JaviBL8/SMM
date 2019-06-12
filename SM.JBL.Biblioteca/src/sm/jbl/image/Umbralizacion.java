@@ -7,7 +7,6 @@ package sm.jbl.image;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-import static java.lang.Math.min;
 
 /**
  *
@@ -20,7 +19,12 @@ public class Umbralizacion extends sm.image.BufferedImageOpAdapter{
     public Umbralizacion(int umbral){
         this.umbral=umbral;
     }
-    
+    /**
+     * Función para aplicar el filtro
+     * @param src BufferedImagen de source
+     * @param dest BufferedImagen de destino
+     * @return BufferedImage con el filtro aplicado(src)
+     */
     @Override
     public BufferedImage filter(BufferedImage src, BufferedImage dest) {
         if (src == null) {

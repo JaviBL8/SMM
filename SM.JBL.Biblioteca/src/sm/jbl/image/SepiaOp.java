@@ -19,6 +19,12 @@ public class SepiaOp extends sm.image.BufferedImageOpAdapter{
        
     }
     
+    /**
+     * Función para aplicar el filtro
+     * @param src BufferedImagen de source
+     * @param dest BufferedImagen de destino
+     * @return BufferedImage con el filtro aplicado(src)
+     */
     @Override
     public BufferedImage filter(BufferedImage src, BufferedImage dest) {
         if (src == null) {

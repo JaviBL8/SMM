@@ -20,17 +20,31 @@ import java.awt.image.BufferedImage;
  */
 public class LienzoImagen2D extends Lienzo2D {
     
+    /**
+     * BufferedImage activa en el lienzo
+     */
     private BufferedImage img;
+    /**
+     * Boolean para activar el fondo o no
+     */
     private boolean fondo=true;
+    /**
+     * Extensión del fichero
+     */
     private String extension="PNG";
-    private int rgbValue;
+    /**
+     * Altura del LienzoImagen2D
+     */
     private int alto;
+    /**
+     * Ancho del LienzoImagen2D
+     */
     private int ancho;
     
-    public int getRGBValue(){
-        return rgbValue;
-    }    
-    
+    /**
+     * Establece una imagen para el lienzo
+     * @param img Imagen que fijar en el lienzo
+     */
     public void setImage(BufferedImage img){
         this.img = img;
         if(img!=null) {
@@ -42,10 +56,17 @@ public class LienzoImagen2D extends Lienzo2D {
         }       
     }
     
+    /**
+     * Establece si se desea fondo o no
+     * @param fondo 1 para activar, 0 para desactivar
+     */
     public void setFondo(boolean fondo){
         this.fondo=fondo;
     }
     
+    /**
+     * @return La imagen activa en el lienzo
+     */
     public BufferedImage getImage(){
         return img;
     }
@@ -67,10 +88,18 @@ public class LienzoImagen2D extends Lienzo2D {
         //setRecortar();
     }
     
+    /**
+     * @return El LienzoImagen2D actual
+     */
     public LienzoImagen2D getLienzoImagen2D(){
         return this;
     }
     
+    /**
+     * Se comporta como getImage a no ser que drawVector sea true
+     * @param drawVector Si es true devuelve la imagen convertida
+     * @return BufferedImage del lienzo actual
+     */
     public BufferedImage getImage(boolean drawVector){
         
         if (drawVector) {
@@ -132,7 +161,10 @@ public class LienzoImagen2D extends Lienzo2D {
     private void formMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseExited
         //dentro = false;
     }//GEN-LAST:event_formMouseExited
-
+    
+    /**
+     * Traza el marco del lienzo de manera discontinua
+     */
     private void drawMarco(Graphics g) {
     Graphics2D g2d = (Graphics2D)g;
     if(fondo){
@@ -147,14 +179,26 @@ public class LienzoImagen2D extends Lienzo2D {
     //g2d.setStroke(sk);
     }
 
+    /**
+     * Cambia la extensión con la que se guardará el lienzo
+     * @param ext String de la extension
+     */
     public void setExtension(String ext){
        this.extension=ext;
     }
-
+    
+    /**
+     * @return La extensión que se especificó para guardar el lienzo
+     */
     public String getExtension(){
         return extension;
     }
-
+    
+    /**
+     * Copiada de las transparencias de teoría
+     * @param type Tipo de la imagen nueva
+     * @return Imagen con tipo cambiado
+     */
     public BufferedImage convertImageType(int type){
         if(img==null) return null;
         BufferedImage imOut = new BufferedImage(img.getWidth(),
