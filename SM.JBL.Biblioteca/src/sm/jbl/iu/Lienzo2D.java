@@ -5,7 +5,6 @@
  */
 package sm.jbl.iu;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -16,7 +15,6 @@ import java.awt.geom.*;
 import static java.lang.Math.min;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.ImageIcon;
 import sm.jbl.eventos.LienzoEvent;
 import sm.jbl.eventos.LienzoListener;
 import sm.jbl.herramientas.Herramientas;
@@ -24,21 +22,47 @@ import static sm.jbl.herramientas.Herramientas.*;
 import sm.jbl.graficos.*;
 
 /**
- *
+ * Gestión de todas las interacciones producidas sobre el lienzo así como algunas propiedades y eventos.
+ * 
  * @author JaviBl8
  */
 public class Lienzo2D extends javax.swing.JPanel {
-
+    
+    /**
+     * Herramienta seleccionada
+     */
     public Herramientas herramienta = Herramientas.PUNTO;
+    /**
+     * Punto origen para el trazado de figuras
+     */
     private Point2D punto1;
+    /**
+     * Punto final para el trazado de figuras
+     */
     private Point2D punto2; 
+    /**
+     * Punto para calcular el desplazamiento que se produce al trasladar figuras
+     */
     private Point2D offSet;
+    /**
+     * Figura en uso en cada instante
+     */
     private Figura figura = null;
-    private Rectangulo boundingBox;
+    /**
+     * Lista de figuras pintadas en el lienzo
+     */
     List<Figura> vShape = new ArrayList();
-    protected Rectangle clip;    
+    /**
+     * Área de dibujo permitida
+     */
+    protected Rectangle clip;  
+    /**
+     * Variable para determinar cuando se edita del resto de propiedades
+     */
     private boolean editar=false;
-    private Toolkit tk = Toolkit.getDefaultToolkit();
+    /**
+     * Lista de eventos personalizados para la clase lienzo
+     */
     ArrayList<LienzoListener> lienzoEventListeners = new ArrayList();
     
     
@@ -52,6 +76,9 @@ public class Lienzo2D extends javax.swing.JPanel {
         offSet = new Point2D.Double();
     }    
 
+    /**
+     * @return Booleano de si se está editando el lienzo o no
+     */
     public boolean getEditar(){
         return editar;
     }

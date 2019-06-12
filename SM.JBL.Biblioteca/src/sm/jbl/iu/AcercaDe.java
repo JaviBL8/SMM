@@ -6,13 +6,16 @@
 package sm.jbl.iu;
 
 /**
- *
+ * Muestra información sobre el autor y el proyecto
  * @author JaviBl8
+ * 
  */
 public class AcercaDe extends java.awt.Dialog {
 
     /**
      * Creates new form AcercaDe
+     * @param parent El frame desde el que se crea
+     * @param modal
      */
     public AcercaDe(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -57,9 +60,11 @@ public class AcercaDe extends java.awt.Dialog {
      */
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 AcercaDe dialog = new AcercaDe(new java.awt.Frame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
                         System.exit(0);
                     }

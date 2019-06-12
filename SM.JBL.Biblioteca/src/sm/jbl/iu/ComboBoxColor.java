@@ -11,7 +11,7 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
 /**
- *
+ * Crea un ComboBox personalizado para los colores
  * @author JaviBl8
  */
 public class ComboBoxColor 
@@ -57,7 +57,14 @@ public class ComboBoxColor
         );
     }// </editor-fold>//GEN-END:initComponents
     
-    
+    /**
+     * 
+     * @param list Lista de colores 
+     * @param value Color seleccionado
+     * @param index Índice del color seleccionado
+     * @param isSelected Booleano con el valor de seleccion
+     * @return El componente ComboBoxColor
+     */
     @Override
     public Component getListCellRendererComponent(JList<? extends Color> list, Color value, int index, boolean isSelected, boolean cellHasFocus) {
 
