@@ -68,6 +68,7 @@ public class Lienzo2D extends javax.swing.JPanel {
     
     /**
      * Creates new form Lienzo2D
+     * Inicializa los puntos
      */
     public Lienzo2D() {
         initComponents();
@@ -83,6 +84,10 @@ public class Lienzo2D extends javax.swing.JPanel {
         return editar;
     }
     
+    /**
+     * Se modifica el valor de editar
+     * @param editar Boolean
+     */
     public void setEditar(boolean editar){
         this.editar=editar;
     }
@@ -116,11 +121,16 @@ public class Lienzo2D extends javax.swing.JPanel {
             .addGap(0, 300, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
-       
+    //Tomamos el valor del punto clickado   
        punto1=evt.getPoint();
        
+        /*
+       Si estamos editando determinaremos el desplazamiento
+       a partir de los puntos donde estuviese la figura
+       y el obtenido (punto1)
+       */
         if(editar){
             figura = (Figura) getSelectedShape(punto1);
             if(figura != null){
@@ -136,19 +146,21 @@ public class Lienzo2D extends javax.swing.JPanel {
                 offSet.setLocation(x - punto1.getX(), y - punto1.getY());
             }
         }else{
+            //Si no estamos editando, creamos una figura
             createShape();
         }
     }//GEN-LAST:event_formMousePressed
 
     private void formMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseDragged
-       
+    //Tomamos el valor del punto clickado      
         punto2=evt.getPoint();
-       
+       //Si estamos editando movemos la figura
         if(editar){
             figura = (Figura) getSelectedShape(punto2);
             setPosicion((Shape) figura);  
         }
         else{
+            //Se termina la creación de la figura
             updateShape();   
         } 
         this.repaint();
@@ -158,12 +170,19 @@ public class Lienzo2D extends javax.swing.JPanel {
         formMouseDragged(evt);
     }//GEN-LAST:event_formMouseReleased
     
+    /**
+     * @param p Punto que se selecciona en el lienzo
+     * @return Figura que contiene ese punto
+     */
     private Shape getSelectedShape(Point2D p){
         for(Figura s:vShape)
         if(((Shape)s).contains(p)) return (Shape) s;
      return null;
     }
     
+    /**
+     * El clip sirve para delimitar el área de dibujo
+     */
     @Override
     public void paint(Graphics g){
         super.paint(g);
@@ -174,11 +193,22 @@ public class Lienzo2D extends javax.swing.JPanel {
         }
     }
     
+    /**
+     * Cambia la herramienta actuak
+     * @param herramienta Herramienta que está en uso
+     */
     public void setHerramienta(Herramientas herramienta){
         this.herramienta = herramienta;
     }
     
+    /**
+     * Mueve una figura
+     * @param figura Figura que se desea mover
+     */
     public void setPosicion(Shape figura){
+        /*Se comprueba de quién es instancia y en función a eso
+        se llama a la función para moverla adecuada
+        */
         if(figura instanceof Rectangle){
             ((Rectangle)figura).setFrame(punto2.getX()+offSet.getX(),punto2.getY()+offSet.getY(),
                     ((Rectangle) figura).getWidth(), ((Rectangle) figura).getHeight());
@@ -203,6 +233,9 @@ public class Lienzo2D extends javax.swing.JPanel {
         
     }
     
+    /**
+     * Crea una figura usando la herramienta activa
+     */
     public void createShape(){
         //Nueva figura
         figura=null;
@@ -234,8 +267,8 @@ public class Lienzo2D extends javax.swing.JPanel {
         notifyShapeAddedEvent( new LienzoEvent(this,(Shape)figura));
     }
     
+    //Termina la creación de la figura
     public void updateShape(){
-        
         switch(herramienta){
             case RECTANGULO:
                 ((Rectangle) vShape.get(vShape.size()-1)).setFrameFromDiagonal(punto1, punto2);
@@ -255,18 +288,31 @@ public class Lienzo2D extends javax.swing.JPanel {
         }
     }
     
+    /**
+     * Determina el area de dibujo
+     * @param clip Rectángulo con las dimensiones para dibujar
+     */
     public void setClip(Rectangle clip){
         this.clip=clip;
     }
     
+    /**
+     * @return Figura actualmente en uso
+     */
     public Figura getFigura(){
         return figura;
     }
     
+    /**
+     * @return Herramienta actualmente en uso
+     */
     public Herramientas getHerramienta(){
         return herramienta;
     }
     
+    /**
+     * @return Lista de figuras sobre el lienzo 
+     */
     public List<Figura> getListaFiguras(){
         return this.vShape;
     }
