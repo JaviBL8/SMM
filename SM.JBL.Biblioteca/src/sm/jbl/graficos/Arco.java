@@ -101,6 +101,7 @@ public class Arco extends Arc2D.Double implements Figura{
         g2d.setRenderingHints(rend);
         g2d.setComposite(comp);
         if(this.p.figuraSeleccionada){
+            g2d.setStroke(stk);
             g2d.draw(this.getBounds2D());
         }
         if(getRelleno())    g2d.fill(this);

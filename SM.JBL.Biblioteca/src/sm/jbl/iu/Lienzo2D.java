@@ -5,6 +5,7 @@
  */
 package sm.jbl.iu;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -59,6 +60,10 @@ public class Lienzo2D extends javax.swing.JPanel {
      * Variable para determinar cuando se edita del resto de propiedades
      */
     private boolean editar=false;
+    /**
+     * Variable para determinar el color de la figura
+     */
+    public Color color=Color.BLACK;
     /**
      * Lista de eventos personalizados para la clase lienzo
      */
@@ -229,7 +234,6 @@ public class Lienzo2D extends javax.swing.JPanel {
                     ((Arco) figura).getWidth(), ((Arco) figura).getHeight());
         }
         notifyPropertyChangeEvent( new LienzoEvent(this,(Shape)figura));
-        
     }
     
     /**
@@ -262,6 +266,7 @@ public class Lienzo2D extends javax.swing.JPanel {
         
             //Añadir figura al combobox    
         }  
+        figura.setColor(color);
         vShape.add(figura);
         notifyShapeAddedEvent( new LienzoEvent(this,(Shape)figura));
     }

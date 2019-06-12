@@ -100,6 +100,7 @@ public class RectanguloRedondeado extends RoundRectangle2D.Double implements Fig
         g2d.setRenderingHints(rend);
         g2d.setComposite(comp);
         if(this.p.figuraSeleccionada){
+            g2d.setStroke(stk);
             g2d.draw(this.getBounds2D());
         }
         if(getRelleno())    g2d.fill(this);

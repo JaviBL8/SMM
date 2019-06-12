@@ -166,7 +166,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jSeparator3 = new javax.swing.JToolBar.Separator();
         jComboBoxFiguras = new javax.swing.JComboBox<>();
         jSeparator7 = new javax.swing.JToolBar.Separator();
-        jPanel1 = new javax.swing.JPanel();
+        jPanelPosicion = new javax.swing.JPanel();
         jLabelX = new javax.swing.JLabel();
         jTextFieldX = new javax.swing.JTextField();
         jLabelY = new javax.swing.JLabel();
@@ -416,26 +416,26 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jToolBarHerramientas.add(jComboBoxFiguras);
         jToolBarHerramientas.add(jSeparator7);
 
-        jPanel1.setPreferredSize(new java.awt.Dimension(150, 30));
+        jPanelPosicion.setPreferredSize(new java.awt.Dimension(150, 30));
 
         jLabelX.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelX.setText("X");
         jLabelX.setToolTipText("PosicionX");
-        jPanel1.add(jLabelX);
+        jPanelPosicion.add(jLabelX);
 
         jTextFieldX.addActionListener( action );
         jTextFieldX.setPreferredSize(new java.awt.Dimension(50, 24));
-        jPanel1.add(jTextFieldX);
+        jPanelPosicion.add(jTextFieldX);
 
         jLabelY.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelY.setText("Y");
         jLabelY.setToolTipText("PosicionY");
-        jPanel1.add(jLabelY);
+        jPanelPosicion.add(jLabelY);
 
         jTextFieldY.setPreferredSize(new java.awt.Dimension(50, 24));
-        jPanel1.add(jTextFieldY);
+        jPanelPosicion.add(jTextFieldY);
 
-        jToolBarHerramientas.add(jPanel1);
+        jToolBarHerramientas.add(jPanelPosicion);
         jToolBarHerramientas.add(jSeparator8);
 
         jSpinnerGrosor.setToolTipText("Grosor");
@@ -1244,11 +1244,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     vi2.getLienzo().setExtension(extension);
                     System.out.println("Extension para abrir: " + vi2.getLienzo().getExtension());
                     vi2.setVisible(true);
+                    MiManejadorLienzo manejador = new MiManejadorLienzo();
+                    vi2.getLienzo().addLienzoListener(manejador);
                 }                    
                 else{
                     //Es un fichero de audio
                     jComboBoxAudios.addItem(f);
                 }                
+                
             }catch(IOException ex){
                 //JOptionPane.showMessageDialog(null, "alert", "alert", JOptionPane.ERROR_MESSAGE);
                 JOptionPane.showMessageDialog(this,"La imagen está dañada o no se reconoce", "error", JOptionPane.ERROR_MESSAGE);
@@ -1300,28 +1303,31 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void jToggleButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonEditarActionPerformed
         VentanaInterna vi = (VentanaInterna)escritorio.getSelectedFrame();
         if (vi != null) vi.getLienzo().setEditar(jToggleButtonEditar.isSelected());
+        repaint();
     }//GEN-LAST:event_jToggleButtonEditarActionPerformed
 
     private void jSpinnerGrosorStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinnerGrosorStateChanged
         VentanaInterna vi = (VentanaInterna)escritorio.getSelectedFrame();
         if(vi != null){
-            Figura f = vi.getLienzo().getFigura();
-            if(f!=null && vi.getLienzo().getEditar()) f.setStroke((int) jSpinnerGrosor.getValue());
+            figura = (Figura) jComboBoxFiguras.getSelectedItem();
+            if(figura!=null){            
+                figura.setStroke((int)jSpinnerGrosor.getValue());
+                this.repaint();
+            }
         }
-        vi.getLienzo().repaint();
     }//GEN-LAST:event_jSpinnerGrosorStateChanged
 
     private void jComboBoxColoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxColoresActionPerformed
-        java.awt.Color c = (java.awt.Color)jComboBoxColores.getSelectedItem();
+        Color c = (java.awt.Color)jComboBoxColores.getSelectedItem();
         VentanaInterna vi = (VentanaInterna)escritorio.getSelectedFrame();
         if(vi != null){
             figura = (Figura) jComboBoxFiguras.getSelectedItem();
+            vi.getLienzo().color=(Color)c;
             if(figura!=null){            
                 figura.setColor(c);
                 this.repaint();
             }
         }
-        vi.indiceColores=jComboBoxColores.getSelectedIndex();
         repaint();
     }//GEN-LAST:event_jComboBoxColoresActionPerformed
 
@@ -1731,7 +1737,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             BufferedImage src = vi.getLienzo().getImage();
             convertImageType(src,BufferedImage.TYPE_INT_ARGB);
             if(src != null){
-                ColorSpace cs = new sm.image.color.GreyColorSpace();
+                ColorSpace cs = ColorSpace.getInstance(ColorSpace.CS_GRAY);
                 
                 ComponentColorModel cm = new ComponentColorModel(cs, false, false,
                                                                     Transparency.OPAQUE, DataBuffer.TYPE_BYTE);
@@ -1788,7 +1794,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                         break;
                     case 2:
                         if (imgSrc.getRaster().getNumBands()!= 1) {
-                            ColorSpace cs = new sm.image.color.GreyColorSpace();
+                            ColorSpace cs = ColorSpace.getInstance(ColorSpace.CS_GRAY);
                             ColorConvertOp cop = new ColorConvertOp(cs, null);
                             imgAux = cop.filter(imgSrc, null);
                             nueva.setTitle(vi.getName() + "[GREY]" );
@@ -2131,7 +2137,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemNegativo;
     private javax.swing.JMenuItem jMenuItemNuevo;
     private javax.swing.JMenu jMenuVer;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelBotonesColor;
     private javax.swing.JPanel jPanelBotonesContraste;
     private javax.swing.JPanel jPanelBotonesEscala;
@@ -2146,6 +2151,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelFiltro;
     private javax.swing.JPanel jPanelOpcionesRotacion;
     private javax.swing.JPanel jPanelOtros;
+    private javax.swing.JPanel jPanelPosicion;
     private javax.swing.JPanel jPanelSeparador1;
     private javax.swing.JPanel jPanelSeparador2;
     private javax.swing.JPanel jPanelSeparador3;
