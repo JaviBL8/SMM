@@ -103,6 +103,7 @@ public class RectanguloRedondeado extends RoundRectangle2D.Double implements Fig
             g2d.setStroke(stk);
             g2d.draw(this.getBounds2D());
         }
+        g2d.setStroke(getStroke());
         if(getRelleno())    g2d.fill(this);
         //Lo mismo para el resto
         g2d.draw(this);
@@ -115,7 +116,7 @@ public class RectanguloRedondeado extends RoundRectangle2D.Double implements Fig
     
     @Override
     public void mover(double x, double y) {
-        this.setFrame(min(this.getX(),x),min(this.getY(),y),Math.abs(x-this.getX()),Math.abs(y-this.getY()));
+        this.setFrame(x,y,this.getWidth(),this.getHeight());
     }
 
 }

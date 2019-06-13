@@ -119,6 +119,7 @@ public class Linea extends Line2D.Double implements Figura{
             g2d.setStroke(stk);
             g2d.draw(this.getBounds2D());
         }
+        g2d.setStroke(getStroke());
         if(getRelleno())    g2d.fill(this);
         //Lo mismo para el resto
         g2d.draw(this);

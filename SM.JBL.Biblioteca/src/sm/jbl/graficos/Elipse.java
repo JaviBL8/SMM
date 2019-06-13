@@ -115,6 +115,6 @@ public class Elipse extends Ellipse2D.Double implements Figura{
 
     @Override
     public void mover(double x, double y) {
-        this.setFrame(min(this.getX(),x),min(this.getY(),y),Math.abs(x-this.getX()),Math.abs(y-this.getY()));
+        this.setFrame(x,y,this.getWidth(),this.getHeight());
     }
 }

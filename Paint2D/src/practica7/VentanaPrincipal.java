@@ -83,6 +83,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private SMRecorder recorder = null;
     private boolean grabando;
     private Figura figura;
+    private Point2D puntoFigura;
     
     /**
      * Creates new form VentanaPrincipal
@@ -92,20 +93,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         jToggleButtonLapiz.setSelected(true);
         jComboBoxFiguras.setModel(new DefaultComboBoxModel());
+        puntoFigura=new Point2D.Double(0,0);
     }
-    
-    Action action = new AbstractAction()
-    {
-        @Override
-        public void actionPerformed(ActionEvent e)
-        {
-            String X = jTextFieldX.getText();
-            String Y = jTextFieldY.getText();
-            System.out.println("Moviendo figura");
-            figura.mover(Double.parseDouble(X), Double.parseDouble(Y));
-        }
-    };
-    
     
     public class MiManejadorLienzo extends LienzoAdapter{
         @Override
@@ -119,8 +108,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         @Override
         public void propertyChange(LienzoEvent evt){
             //Set posicion
-            jTextFieldX.setText( Double.toString( ((Shape)figura).getBounds2D().getCenterX()));
-            jTextFieldY.setText( Double.toString( ((Shape)figura).getBounds2D().getCenterY()));
+            puntoFigura.setLocation(((Shape)figura).getBounds2D().getX(), ((Shape)figura).getBounds2D().getY());
+            jTextFieldX.setText( Double.toString(puntoFigura.getX()));
+            jTextFieldY.setText( Double.toString(puntoFigura.getY()));
         }
     }    
     
@@ -171,6 +161,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jTextFieldX = new javax.swing.JTextField();
         jLabelY = new javax.swing.JLabel();
         jTextFieldY = new javax.swing.JTextField();
+        jButtonMover = new javax.swing.JButton();
         jSeparator8 = new javax.swing.JToolBar.Separator();
         jSpinnerGrosor = new javax.swing.JSpinner();
         jSeparator4 = new javax.swing.JToolBar.Separator();
@@ -416,15 +407,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jToolBarHerramientas.add(jComboBoxFiguras);
         jToolBarHerramientas.add(jSeparator7);
 
-        jPanelPosicion.setPreferredSize(new java.awt.Dimension(150, 30));
+        jPanelPosicion.setPreferredSize(new java.awt.Dimension(250, 30));
+        jPanelPosicion.setLayout(new javax.swing.BoxLayout(jPanelPosicion, javax.swing.BoxLayout.LINE_AXIS));
 
         jLabelX.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelX.setText("X");
         jLabelX.setToolTipText("PosicionX");
         jPanelPosicion.add(jLabelX);
 
-        jTextFieldX.addActionListener( action );
-        jTextFieldX.setPreferredSize(new java.awt.Dimension(50, 24));
+        jTextFieldX.setPreferredSize(new java.awt.Dimension(75, 24));
         jPanelPosicion.add(jTextFieldX);
 
         jLabelY.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -432,8 +423,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jLabelY.setToolTipText("PosicionY");
         jPanelPosicion.add(jLabelY);
 
-        jTextFieldY.setPreferredSize(new java.awt.Dimension(50, 24));
+        jTextFieldY.setPreferredSize(new java.awt.Dimension(75, 24));
         jPanelPosicion.add(jTextFieldY);
+
+        jButtonMover.setText("Mover");
+        jButtonMover.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonMoverActionPerformed(evt);
+            }
+        });
+        jPanelPosicion.add(jButtonMover);
 
         jToolBarHerramientas.add(jPanelPosicion);
         jToolBarHerramientas.add(jSeparator8);
@@ -547,7 +546,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         escritorio.setLayout(escritorioLayout);
         escritorioLayout.setHorizontalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1334, Short.MAX_VALUE)
+            .addGap(0, 1411, Short.MAX_VALUE)
         );
         escritorioLayout.setVerticalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -580,7 +579,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador1.setLayout(jPanelSeparador1Layout);
         jPanelSeparador1Layout.setHorizontalGroup(
             jPanelSeparador1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 24, Short.MAX_VALUE)
+            .addGap(0, 27, Short.MAX_VALUE)
         );
         jPanelSeparador1Layout.setVerticalGroup(
             jPanelSeparador1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -627,7 +626,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador2.setLayout(jPanelSeparador2Layout);
         jPanelSeparador2Layout.setHorizontalGroup(
             jPanelSeparador2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 24, Short.MAX_VALUE)
+            .addGap(0, 27, Short.MAX_VALUE)
         );
         jPanelSeparador2Layout.setVerticalGroup(
             jPanelSeparador2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -673,7 +672,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador3.setLayout(jPanelSeparador3Layout);
         jPanelSeparador3Layout.setHorizontalGroup(
             jPanelSeparador3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 24, Short.MAX_VALUE)
+            .addGap(0, 27, Short.MAX_VALUE)
         );
         jPanelSeparador3Layout.setVerticalGroup(
             jPanelSeparador3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -728,7 +727,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador4.setLayout(jPanelSeparador4Layout);
         jPanelSeparador4Layout.setHorizontalGroup(
             jPanelSeparador4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 24, Short.MAX_VALUE)
+            .addGap(0, 27, Short.MAX_VALUE)
         );
         jPanelSeparador4Layout.setVerticalGroup(
             jPanelSeparador4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -791,7 +790,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador5.setLayout(jPanelSeparador5Layout);
         jPanelSeparador5Layout.setHorizontalGroup(
             jPanelSeparador5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 24, Short.MAX_VALUE)
+            .addGap(0, 27, Short.MAX_VALUE)
         );
         jPanelSeparador5Layout.setVerticalGroup(
             jPanelSeparador5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -837,7 +836,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador6.setLayout(jPanelSeparador6Layout);
         jPanelSeparador6Layout.setHorizontalGroup(
             jPanelSeparador6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 24, Short.MAX_VALUE)
+            .addGap(0, 27, Short.MAX_VALUE)
         );
         jPanelSeparador6Layout.setVerticalGroup(
             jPanelSeparador6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -916,7 +915,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador7.setLayout(jPanelSeparador7Layout);
         jPanelSeparador7Layout.setHorizontalGroup(
             jPanelSeparador7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 24, Short.MAX_VALUE)
+            .addGap(0, 27, Short.MAX_VALUE)
         );
         jPanelSeparador7Layout.setVerticalGroup(
             jPanelSeparador7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -963,7 +962,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador8.setLayout(jPanelSeparador8Layout);
         jPanelSeparador8Layout.setHorizontalGroup(
             jPanelSeparador8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 24, Short.MAX_VALUE)
+            .addGap(0, 27, Short.MAX_VALUE)
         );
         jPanelSeparador8Layout.setVerticalGroup(
             jPanelSeparador8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1007,7 +1006,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanelSeparador9.setLayout(jPanelSeparador9Layout);
         jPanelSeparador9Layout.setHorizontalGroup(
             jPanelSeparador9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 98, Short.MAX_VALUE)
+            .addGap(0, 110, Short.MAX_VALUE)
         );
         jPanelSeparador9Layout.setVerticalGroup(
             jPanelSeparador9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2047,6 +2046,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jButtonAlisadoActionPerformed
+
+    private void jButtonMoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMoverActionPerformed
+        puntoFigura.setLocation( Double.parseDouble(jTextFieldX.getText()), Double.parseDouble(jTextFieldY.getText()));
+        if(figura!=null){
+            figura.mover(puntoFigura.getX(), puntoFigura.getY());
+        }
+        repaint();
+    }//GEN-LAST:event_jButtonMoverActionPerformed
     
     public LookupTable lookUpPersonalizado(double n){
         double K = 255.0D / Math.pow(255.0D, n);
@@ -2087,6 +2094,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jButtonEcualizacion;
     private javax.swing.JButton jButtonGrabar;
     private javax.swing.JButton jButtonGuardar;
+    private javax.swing.JButton jButtonMover;
     private javax.swing.JButton jButtonNormal;
     private javax.swing.JButton jButtonNuevo;
     private javax.swing.JButton jButtonOscuridad;

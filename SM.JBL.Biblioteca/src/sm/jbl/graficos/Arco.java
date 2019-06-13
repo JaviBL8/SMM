@@ -104,6 +104,7 @@ public class Arco extends Arc2D.Double implements Figura{
             g2d.setStroke(stk);
             g2d.draw(this.getBounds2D());
         }
+        g2d.setStroke(getStroke());
         if(getRelleno())    g2d.fill(this);
         //Lo mismo para el resto
         g2d.draw(this);
@@ -116,7 +117,7 @@ public class Arco extends Arc2D.Double implements Figura{
 
     @Override
     public void mover(double x, double y) {
-        this.setFrame(min(this.getX(),x),min(this.getY(),y),Math.abs(x-this.getX()),Math.abs(y-this.getY()));
+        this.setFrame(x,y,this.getWidth(),this.getHeight());
     }
    
 }
