@@ -596,9 +596,6 @@
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Audios"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxAudiosActionPerformed"/>
-          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;File&gt;"/>
           </AuxValues>
