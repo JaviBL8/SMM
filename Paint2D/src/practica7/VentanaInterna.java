@@ -24,6 +24,7 @@ public class VentanaInterna extends javax.swing.JInternalFrame {
     
     /**
      * Creates new form VentanaInterna
+     * @param parent VentanaPrincipal padre
      */
     public VentanaInterna(VentanaPrincipal parent) {
         initComponents();
@@ -100,6 +101,10 @@ public class VentanaInterna extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Actualiza las opciones en ventana principal
+     * @param evt Evento generado
+     */
     private void formInternalFrameActivated(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameActivated
         
         Herramientas herramienta = lienzoImagen2D.getHerramienta();
@@ -142,6 +147,10 @@ public class VentanaInterna extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_formInternalFrameActivated
     
+    /**
+     * Devuelve el lienzo asociado a la ventana interna
+     * @return lienzoImagen2D
+     */
     public LienzoImagen2D getLienzo(){
         return lienzoImagen2D;
     }
@@ -151,7 +160,10 @@ public class VentanaInterna extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane;
     private sm.jbl.iu.LienzoImagen2D lienzoImagen2D;
     // End of variables declaration//GEN-END:variables
-
+    
+    /**
+     * Carga el modelo de las figuras en el combobox de la ventana principal
+     */
     private void cargaModeloFiguras() {
         List<Figura>listaFiguras = this.lienzoImagen2D.getListaFiguras();
         for(Figura f : listaFiguras){
