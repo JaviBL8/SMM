@@ -26,6 +26,7 @@ import java.awt.image.Kernel;
 import java.awt.image.LookupOp;
 import java.awt.image.LookupTable;
 import java.awt.image.RescaleOp;
+import java.awt.image.ShortLookupTable;
 import java.awt.image.WritableRaster;
 import sm.jbl.herramientas.Herramientas;
 import java.io.File;
@@ -48,6 +49,7 @@ import sm.image.TintOp;
 import sm.jbl.eventos.LienzoAdapter;
 import sm.jbl.eventos.LienzoEvent;
 import sm.jbl.graficos.Figura;
+import sm.jbl.image.BlurOp;
 import sm.jbl.image.SepiaOp;
 import sm.jbl.iu.AcercaDe;
 import sm.sound.SMClipPlayer;
@@ -255,13 +257,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jMenuItemGuardar = new javax.swing.JMenuItem();
         jMenuItemAbrirAudio = new javax.swing.JMenuItem();
         jMenuItemGuardarAudio = new javax.swing.JMenuItem();
-        jMenuEdicion = new javax.swing.JMenu();
         jMenuImagen = new javax.swing.JMenu();
         jCheckBoxMenuItemRescaleOp = new javax.swing.JCheckBoxMenuItem();
-        jCheckBoxMenuItemConvolve = new javax.swing.JCheckBoxMenuItem();
         jMenuItemNegativo = new javax.swing.JMenuItem();
         jMenuItemDuplicar = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItemLookUp = new javax.swing.JMenuItem();
+        jMenuItemFiltroComponente = new javax.swing.JMenuItem();
         jMenuVer = new javax.swing.JMenu();
         jCheckBoxMenuItemSuperior = new javax.swing.JCheckBoxMenuItem();
         jMenuAyuda = new javax.swing.JMenu();
@@ -1074,26 +1075,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jMenuBar.add(jMenuArchivo);
 
-        jMenuEdicion.setText("Edición");
-        jMenuBar.add(jMenuEdicion);
-
         jMenuImagen.setText("Imagen");
 
-        jCheckBoxMenuItemRescaleOp.setText("Reescalar");
+        jCheckBoxMenuItemRescaleOp.setText("Brillo");
         jCheckBoxMenuItemRescaleOp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBoxMenuItemRescaleOpActionPerformed(evt);
             }
         });
         jMenuImagen.add(jCheckBoxMenuItemRescaleOp);
-
-        jCheckBoxMenuItemConvolve.setText("Convolve");
-        jCheckBoxMenuItemConvolve.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBoxMenuItemConvolveActionPerformed(evt);
-            }
-        });
-        jMenuImagen.add(jCheckBoxMenuItemConvolve);
 
         jMenuItemNegativo.setText("Negativo");
         jMenuItemNegativo.addActionListener(new java.awt.event.ActionListener() {
@@ -1111,13 +1101,21 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         });
         jMenuImagen.add(jMenuItemDuplicar);
 
-        jMenuItem1.setText("LookupOp");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItemLookUp.setText("Operación personalizada");
+        jMenuItemLookUp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                jMenuItemLookUpActionPerformed(evt);
             }
         });
-        jMenuImagen.add(jMenuItem1);
+        jMenuImagen.add(jMenuItemLookUp);
+
+        jMenuItemFiltroComponente.setText("Filtro componente");
+        jMenuItemFiltroComponente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemFiltroComponenteActionPerformed(evt);
+            }
+        });
+        jMenuImagen.add(jMenuItemFiltroComponente);
 
         jMenuBar.add(jMenuImagen);
 
@@ -1240,7 +1238,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 String type = mimetype.split("/")[0];
                 //El segundo mimetype es para png
                 if(type.equals("image") || mimetype.equals("application/octet-stream")){
-                    System.out.println("Es png");
                     BufferedImage img = ImageIO.read(f);
                     VentanaInterna vi2 = new VentanaInterna(this);
                     //Redimensionado de la ventana  
@@ -1253,7 +1250,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     int indicePunto = extension.lastIndexOf(".");
                     extension=extension.substring(indicePunto+1);
                     vi2.getLienzo().setExtension(extension);
-                    System.out.println("Extension para abrir: " + vi2.getLienzo().getExtension());
                     vi2.setVisible(true);
                     MiManejadorLienzo manejador = new MiManejadorLienzo();
                     vi2.getLienzo().addLienzoListener(manejador);
@@ -1262,7 +1258,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     //Es un fichero de audio
                     jComboBoxAudios.addItem(f);
                 }                
-                
             }catch(IOException ex){
                 //JOptionPane.showMessageDialog(null, "alert", "alert", JOptionPane.ERROR_MESSAGE);
                 JOptionPane.showMessageDialog(this,"La imagen está dañada o no se reconoce", "error", JOptionPane.ERROR_MESSAGE);
@@ -1277,14 +1272,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             FileFilter jpg = new FileNameExtensionFilter("JPG", "jpg", "jpeg");
             FileFilter png = new FileNameExtensionFilter("PNG", "png");
             FileFilter gif = new FileNameExtensionFilter("GIF", "gif");
-            System.out.println("Extension para guardar: " + vi.getLienzo().getExtension());
-           
-            if(vi.getLienzo().getImage().getType()!=BufferedImage.TYPE_INT_ARGB){
-                dlg.addChoosableFileFilter(jpg);
-            }else{
-                dlg.addChoosableFileFilter(png);
-            }           
-            
+
             dlg.setAcceptAllFileFilterUsed(true);
             int resp = dlg.showSaveDialog(this);
             if (resp == JFileChooser.APPROVE_OPTION) {
@@ -1338,6 +1326,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 figura.setColor(c);
                 this.repaint();
             }
+            
         }
         repaint();
     }//GEN-LAST:event_jComboBoxColoresActionPerformed
@@ -1357,10 +1346,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jCheckBoxMenuItemRescaleOpActionPerformed
-
-    private void jCheckBoxMenuItemConvolveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItemConvolveActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBoxMenuItemConvolveActionPerformed
 
     private void jSliderBrilloStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderBrilloStateChanged
         vi = (VentanaInterna) (escritorio.getSelectedFrame());
@@ -1444,14 +1429,28 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 //Emborronamiento media 5x5
                 case 5:
                     float filtroMedia5x5[] = new float[25];
-                    for (int i = 0; i < 25; i++) filtroMedia5x5[i] = 1.0f / 25.0f;
+                    for (int i = 0; i < 25; i++) {
+                        if(i==5 || i==6 ||i==9 || i==10){
+                            filtroMedia5x5[i] = 5.0f /50.0f;
+                        }
+                        else{
+                            filtroMedia5x5[i] = 1.0f/50.0f;
+                        }                      
+                    }
                     k = new Kernel(5,5,filtroMedia5x5);
                     break;
                 //Emborronamiento media: 7x7
                 case 6:
                     float filtroMedia7x7[] = new float[49];
-                    for (int i = 0; i < 49; i++) filtroMedia7x7[i] = 1.0f / 49.0f;
-                    k = new Kernel(5,5,filtroMedia7x7);
+                    for (int i = 0; i < 49; i++){
+                        int aleatorio = (int) (Math.random()%10);
+                        if(aleatorio%2==0){
+                            filtroMedia7x7[i] = 1.0f/50.0f;
+                        }else{
+                            filtroMedia7x7[i] = 0.0f/50.0f;
+                        }
+                    }
+                    k = new Kernel(7,7,filtroMedia7x7);
                     break;
             }
             cop = new ConvolveOp(k,ConvolveOp.EDGE_NO_OP,null);
@@ -1697,7 +1696,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     LookupOp lop = new LookupOp(lt,null); 
                     vi.getLienzo().setImage(lop.filter(imgSource, null));
                     vi.repaint();
-                } catch(Exception e){
+                }catch(Exception e){
                     System.err.println(e.getLocalizedMessage());
                 }
             }   
@@ -1716,7 +1715,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 nueva.setTitle(vi.getTitle()+"[DUPLICADA]");
                 nueva.getLienzo().setImage(copia);
                 this.escritorio.add(nueva);
-                    nueva.setVisible(true);
+                nueva.setVisible(true);
             }
             
         }
@@ -1735,7 +1734,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     imgAux = lop.filter(imgSource, null);
                     vi.getLienzo().setImage(imgAux);
                     vi.repaint();
-                } catch(Exception e){
+                }catch(Exception e){
                     System.err.println(e.getLocalizedMessage());
                 }
             }
@@ -1841,6 +1840,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void jButtonEcualizacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEcualizacionActionPerformed
         vi = (VentanaInterna)(escritorio.getSelectedFrame());
         if(vi!=null){
+            vi.getLienzo().convertImageType(BufferedImage.TYPE_INT_RGB);
             imgSource = vi.getLienzo().getImage();
             if(imgSource != null){             
                 EqualizationOp ecualizacion = new EqualizationOp();
@@ -1852,6 +1852,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }else{
             System.out.println("No hay ventana interna o es nula");
         }
+        this.repaint();
     }//GEN-LAST:event_jButtonEcualizacionActionPerformed
 
     private void jToggleButtonRoundRectangleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonRoundRectangleActionPerformed
@@ -1864,7 +1865,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jToggleButtonRoundRectangleActionPerformed
 
     private void jSliderUmbralizacionStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderUmbralizacionStateChanged
-
         if(vi!=null){
             if(imgSource != null && jSliderUmbralizacion.hasFocus()){    
                 vi.getLienzo().convertImageType(BufferedImage.TYPE_INT_ARGB);
@@ -1896,14 +1896,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         this.escritorio.repaint();
     }//GEN-LAST:event_jSliderUmbralizacionFocusLost
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void jMenuItemLookUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemLookUpActionPerformed
         vi = (VentanaInterna) (escritorio.getSelectedFrame());
         if (vi != null) {
             imgSource = vi.getLienzo().getImage();
-            imgSource=convertImageType(imgSource,BufferedImage.TYPE_INT_ARGB);
+            imgSource=convertImageType(imgSource,BufferedImage.TYPE_INT_RGB);
             if(imgSource!=null){
                 try{
-                    LookupTable lt = lookUpPersonalizado(180.0f / 255.0f);
+                    LookupTable lt = lookUpPersonalizado();
                     LookupOp lop = new LookupOp(lt, null);
                     // Imagen origen y destino iguales
                     imgAux = lop.filter(imgSource, null);
@@ -1914,7 +1914,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 }
             }
         }
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_jMenuItemLookUpActionPerformed
 
     private void jToggleButtonArcoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonArcoActionPerformed
         vi = (VentanaInterna)escritorio.getSelectedFrame();
@@ -1937,9 +1937,29 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             figura.getPropiedades().setSelected(true);
             
             //Set posicion
-            this.jTextFieldX.setText( Double.toString( ((Shape)figura).getBounds2D().getCenterX()));
-            this.jTextFieldY.setText( Double.toString( ((Shape)figura).getBounds2D().getCenterY()));
+            this.jTextFieldX.setText( Double.toString( ((Shape)figura).getBounds2D().getMinX()));
+            this.jTextFieldY.setText( Double.toString( ((Shape)figura).getBounds2D().getMinY()));
             
+            switch(figura.toString()){
+                case "Elipse":
+                    this.jToggleButtonOvalo.setSelected(true);
+                    break;
+                case "Rectángulo":
+                    this.jToggleButtonRectangulo.setSelected(true);
+                    break;
+                case "Arco":
+                    this.jToggleButtonArco.setSelected(true);
+                    break;
+                case "Punto":
+                    this.jToggleButtonLapiz.setSelected(true);
+                    break;
+                case "Línea":
+                    this.jToggleButtonLinea.setSelected(true);
+                    break;
+                case "Rectángulo redondeado":
+                    this.jToggleButtonRoundRectangle.setSelected(true);
+                    break;
+            }
             this.repaint();
         }
     }//GEN-LAST:event_jComboBoxFigurasActionPerformed
@@ -2061,14 +2081,36 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
         repaint();
     }//GEN-LAST:event_jButtonMoverActionPerformed
-    
-    public LookupTable lookUpPersonalizado(double n){
-        double K = 255.0D / Math.pow(255.0D, n);
-        byte[] lt = new byte[256];
-        for (int l = 0; l <= 255; l++)
-          lt[l] = ((byte)(int)(K * Math.pow(l, n)));
-        ByteLookupTable slt = new ByteLookupTable(0, lt);
 
+    private void jMenuItemFiltroComponenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemFiltroComponenteActionPerformed
+        vi = (VentanaInterna)(escritorio.getSelectedFrame());
+        if(vi!=null){
+            imgSource = vi.getLienzo().getImage();
+            if(imgSource != null){             
+                BlurOp fcp = new BlurOp();
+                fcp.filter(imgSource, imgSource);
+            }
+            else{
+                System.out.println("No hay imagen o es nula");
+            }
+        }else{
+            System.out.println("No hay ventana interna o es nula");
+        }
+        this.repaint();
+    }//GEN-LAST:event_jMenuItemFiltroComponenteActionPerformed
+    
+    public LookupTable lookUpPersonalizado(){
+        short[] coloresInvertidos = new short[256];
+        short[] coloresSinInvertir = new short[256];
+        short[] colorACero = new short[256];
+        short [][] rosado = {
+            coloresSinInvertir ,colorACero, coloresSinInvertir};
+        for (int l = 0; l <= 255; l++){
+            coloresInvertidos[l] = (short)(255-l);
+            coloresSinInvertir[l] = (short)(l);
+            colorACero[l] = 0;
+        }        
+        ShortLookupTable slt = new ShortLookupTable(0, rosado);
         return slt;
     }
     
@@ -2117,7 +2159,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jButtonTintado;
     private javax.swing.JButton jButtonTransparencia;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItemAcerca;
-    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItemConvolve;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItemRescaleOp;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItemSuperior;
     private javax.swing.JComboBox<File> jComboBoxAudios;
@@ -2141,14 +2182,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuArchivo;
     private javax.swing.JMenu jMenuAyuda;
     private javax.swing.JMenuBar jMenuBar;
-    private javax.swing.JMenu jMenuEdicion;
     private javax.swing.JMenu jMenuImagen;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItemAbrir;
     private javax.swing.JMenuItem jMenuItemAbrirAudio;
     private javax.swing.JMenuItem jMenuItemDuplicar;
+    private javax.swing.JMenuItem jMenuItemFiltroComponente;
     private javax.swing.JMenuItem jMenuItemGuardar;
     private javax.swing.JMenuItem jMenuItemGuardarAudio;
+    private javax.swing.JMenuItem jMenuItemLookUp;
     private javax.swing.JMenuItem jMenuItemNegativo;
     private javax.swing.JMenuItem jMenuItemNuevo;
     private javax.swing.JMenu jMenuVer;

@@ -130,10 +130,10 @@ public class Lienzo2D extends javax.swing.JPanel {
     //Tomamos el valor del punto clickado   
        punto1=evt.getPoint();
        
-        /*
-       Si estamos editando determinaremos el desplazamiento
-       a partir de los puntos donde estuviese la figura
-       y el obtenido (punto1)
+        /**
+        * Si estamos editando determinaremos el desplazamiento
+        * a partir de los puntos donde estuviese la figura
+        * y el obtenido (punto1)
        */
         if(editar){
             figura = (Figura) getSelectedShape(punto1);
@@ -156,7 +156,7 @@ public class Lienzo2D extends javax.swing.JPanel {
     }//GEN-LAST:event_formMousePressed
 
     private void formMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseDragged
-    //Tomamos el valor del punto clickado      
+    //Tomamos el valor del punto clicado      
         punto2=evt.getPoint();
        //Si estamos editando movemos la figura
         if(editar){
